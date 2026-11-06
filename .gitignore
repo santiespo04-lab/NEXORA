@@ -1,0 +1,7 @@
+# generado por "npm run build" (Vercel lo vuelve a generar en cada deploy)
+dist/
+node_modules/
+.vercel/
+.env*
+.DS_Store
+Thumbs.db

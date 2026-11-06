@@ -1,0 +1,6 @@
+# lo que no hace falta subir con "vercel" desde la terminal (Vercel arma dist/ en la nube)
+dist/
+node_modules/
+.env*
+.DS_Store
+Thumbs.db

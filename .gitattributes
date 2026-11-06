@@ -1,0 +1,10 @@
+# mismos finales de línea (LF) en Windows, Mac y en Vercel
+* text=auto eol=lf
+
+*.mp4 binary
+*.webm binary
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
+*.woff2 binary

@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>NEXORA</title>
+    <meta
+      name="description"
+      content="NEXORA, el estudio digital de Santiago Esposito: edición de video, motion design, presentaciones, diseño web y videos programados con HyperFrames."
+    />
+    <meta name="theme-color" content="#050505" />
+    <meta property="og:title" content="NEXORA" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content="NEXORA" />
+    <meta
+      property="og:description"
+      content="El estudio digital de Santiago Esposito: edición de video, motion design, presentaciones, diseño web y HyperFrames."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preload" href="assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23050505'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23ff2b2b'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#proyectos">Saltar a proyectos</a>
+    <div class="progress" aria-hidden="true"><i id="progress-bar"></i></div>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="cursor" id="cursor" aria-hidden="true"><span id="cursor-label"></span></div>
+
+    <!-- ============ NAV ============ -->
+    <header class="nav" id="nav">
+      <a class="nav__brand" href="#inicio" aria-label="Inicio">
+        <span class="mono-mark" aria-hidden="true">SE</span>
+        <span class="nav__name" data-site="name">Santiago Esposito</span>
+      </a>
+      <nav class="nav__links" aria-label="Principal">
+        <a href="#sobre-mi">Sobre mí</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <a class="status mono" id="status" href="#contacto">
+        <i class="status__dot" aria-hidden="true"></i><span data-site="availability">Disponible para proyectos</span>
+      </a>
+      <button class="nav__toggle" id="menu-toggle" aria-expanded="false" aria-controls="menu">
+        <span class="nav__toggle-label">Menú</span><i></i><i></i>
+      </button>
+    </header>
+
+    <div class="menu" id="menu" hidden>
+      <nav class="menu__links" aria-label="Menú">
+        <a href="#sobre-mi">Sobre mí</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <p class="menu__foot mono">
+        <span class="status status--static"><i class="status__dot" aria-hidden="true"></i><span data-site="availability">Disponible para proyectos</span></span>
+        <span data-site="location">Argentina</span>
+      </p>
+    </div>
+
+    <main>
+      <!-- ============ INICIO ============ -->
+      <section class="hero" id="inicio" aria-labelledby="hero-title">
+        <canvas class="hero__dust" id="dust" aria-hidden="true"></canvas>
+        <div class="frame" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
+
+        <div class="hero__inner wrap">
+          <p class="eyebrow mono reveal">
+            <span class="dot"></span> <span data-site="name">Santiago Esposito</span> — Portfolio <span data-site="year">2026</span> ·
+            <span data-site="location">Argentina</span>
+          </p>
+          <h1 class="hero__title" id="hero-title">
+            <span class="hero__line"><span class="hero__word" data-split>BIENVENIDO A</span></span>
+            <span class="hero__line"><span class="hero__word hero__word--accent" data-split>NEXORA,</span></span>
+            <span class="hero__line"><span class="hero__word hero__word--outline" data-split>TU MUNDO A EDITAR.</span></span>
+          </h1>
+
+          <div class="hero__row">
+            <div class="hero__copy">
+              <p class="roles reveal">
+                <span class="roles__dash" aria-hidden="true"></span>
+                <span class="roles__track" id="roles"><span class="roles__item is-on">Editor de video</span></span>
+              </p>
+              <p class="hero__lede reveal" data-site="intro">
+                NEXORA es el estudio digital de Santiago Esposito. Edición de video, motion design, presentaciones, diseño web y
+                videos programados con HyperFrames.
+              </p>
+              <div class="hero__ctas reveal">
+                <a class="btn btn--red magnetic" href="#proyectos" data-cursor="Ver">Ver proyectos <span aria-hidden="true">→</span></a>
+                <a class="btn btn--line magnetic" href="#contacto" data-cursor="Hablemos">Trabajemos juntos</a>
+              </div>
+            </div>
+
+            <figure class="monitor reveal" id="monitor-box" aria-label="Showreel">
+              <div class="monitor__hud mono">
+                <span><i class="live" aria-hidden="true"></i>Showreel</span><span id="monitor-label"></span>
+              </div>
+              <div class="monitor__screen">
+                <canvas id="monitor" aria-hidden="true"></canvas>
+                <video id="monitor-video" muted loop playsinline preload="metadata" hidden></video>
+                <button class="monitor__big" id="monitor-big" type="button" aria-label="Reproducir showreel" hidden>▶</button>
+                <i class="monitor__bar" aria-hidden="true"><b id="monitor-bar"></b></i>
+              </div>
+              <figcaption class="monitor__cap">
+                <button class="chip-btn mono" id="monitor-play" type="button" aria-label="Pausar showreel">Pausa</button>
+                <button class="chip-btn mono" id="monitor-sound" type="button" aria-pressed="false" aria-label="Activar sonido">Sonido</button>
+                <span class="monitor__tc mono" id="monitor-tc">00:00</span>
+                <button class="chip-btn chip-btn--accent mono" id="monitor-open" type="button" data-cursor="Ver">Ver proyecto ↗</button>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="ruler wrap" aria-hidden="true">
+          <div class="ruler__ticks"></div>
+          <a class="ruler__hint mono" href="#sobre-mi" tabindex="-1">Explorar</a>
+        </div>
+      </section>
+
+      <!-- ============ SOBRE MÍ ============ -->
+      <section class="about wrap" id="sobre-mi" aria-labelledby="about-title">
+        <p class="label mono reveal"><span class="dot"></span>Sobre mí</p>
+        <h2 class="about__lead" id="about-title" data-split data-about="lead">Cada frame con intención.</h2>
+        <div class="about__grid">
+          <div class="about__main">
+            <div class="about__body reveal" id="about-body"></div>
+            <h3 class="about__sub mono reveal">Enfoque creativo</h3>
+            <ul class="approach" id="approach"></ul>
+          </div>
+          <aside class="about__side">
+            <div class="slate reveal" id="slate" aria-label="Ficha"></div>
+            <h3 class="about__sub mono reveal">Herramientas</h3>
+            <ul class="tags tags--tools reveal" id="tools"></ul>
+          </aside>
+        </div>
+        <h3 class="about__sub mono reveal">Cómo trabajo</h3>
+        <ol class="process" id="process" aria-label="Cómo trabajo"></ol>
+      </section>
+
+      <div class="marquee" aria-hidden="true"><div class="marquee__track" id="marquee"></div></div>
+
+      <!-- ============ PROYECTOS ============ -->
+      <section class="work wrap" id="proyectos" aria-labelledby="work-title">
+        <div class="section-head">
+          <div>
+            <p class="label mono reveal"><span class="dot"></span>Proyectos</p>
+            <h2 class="section-title" id="work-title" data-split>Trabajo seleccionado</h2>
+          </div>
+          <div class="filters reveal" id="filters" role="toolbar" aria-label="Filtrar proyectos"></div>
+        </div>
+        <div class="grid" id="grid"></div>
+      </section>
+
+      <!-- ============ SERVICIOS ============ -->
+      <section class="services wrap" id="servicios" aria-labelledby="services-title">
+        <div class="section-head">
+          <div>
+            <p class="label mono reveal"><span class="dot"></span>Servicios</p>
+            <h2 class="section-title" id="services-title" data-split>Lo que hago</h2>
+          </div>
+          <p class="section-note reveal">Cinco disciplinas en una misma línea de tiempo: cada proyecto combina las que necesita.</p>
+        </div>
+        <div class="svc-grid" id="svc-grid"></div>
+      </section>
+
+      <!-- ============ CONTACTO ============ -->
+      <section class="contact wrap" id="contacto" aria-labelledby="contact-title">
+        <p class="label mono reveal"><span class="dot"></span>Contacto</p>
+        <h2 class="contact__title" id="contact-title">
+          <span class="hero__line"><span data-split>¿Hacemos algo</span></span>
+          <span class="hero__line"><span class="contact__accent" data-split>que se mueva?</span></span>
+        </h2>
+        <p class="contact__text reveal">
+          Contame tu idea, el formato y para cuándo la necesitás. Respondo con una propuesta clara y un camino de trabajo.
+        </p>
+        <div class="reach" id="reach"></div>
+        <p class="reach__status mono" id="reach-status" role="status" aria-live="polite"></p>
+        <ul class="socials" id="socials" aria-label="Redes sociales"></ul>
+      </section>
+
+      <div class="closing" id="closing" aria-hidden="true">
+        <span class="closing__word">NEXORA</span>
+        <span class="closing__word closing__word--fill">NEXORA</span>
+      </div>
+    </main>
+
+    <footer class="foot wrap">
+      <span class="mono-mark" aria-hidden="true">SE</span>
+      <p class="mono">© <span data-site="year">2026</span> <span data-site="name">Santiago Esposito</span> · NEXORA</p>
+      <a class="foot__top mono" href="#inicio">Volver arriba ↑</a>
+    </footer>
+
+    <!-- ============ VISTA DE PROYECTO ============ -->
+    <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewer-title" hidden>
+      <div class="viewer__backdrop" data-close></div>
+      <div class="viewer__panel">
+        <header class="viewer__bar">
+          <p class="mono"><span class="dot"></span><span id="viewer-cats"></span></p>
+          <div class="viewer__nav">
+            <button class="icon-btn" id="viewer-prev" type="button" aria-label="Proyecto anterior">←</button>
+            <button class="icon-btn" id="viewer-next" type="button" aria-label="Proyecto siguiente">→</button>
+            <button class="icon-btn icon-btn--close" type="button" data-close aria-label="Cerrar">✕</button>
+          </div>
+        </header>
+        <div class="viewer__body">
+          <div class="viewer__stage" id="viewer-stage">
+            <canvas id="viewer-canvas" hidden></canvas>
+            <img id="viewer-img" alt="" hidden />
+            <video id="viewer-video" playsinline preload="metadata" hidden></video>
+            <div class="player" id="player" hidden>
+              <button class="player__btn" id="player-play" type="button" aria-label="Reproducir">▶</button>
+              <input class="player__scrub" id="player-scrub" type="range" min="0" max="1000" value="0" step="1" aria-label="Posición" />
+              <span class="player__time mono" id="player-time">00:00 / 00:00</span>
+              <button class="player__btn" id="player-mute" type="button" aria-label="Silenciar">Sonido</button>
+              <button class="player__btn" id="player-full" type="button" aria-label="Pantalla completa">⤢</button>
+            </div>
+          </div>
+          <aside class="viewer__info">
+            <h3 class="viewer__title" id="viewer-title"></h3>
+            <p class="viewer__sub" id="viewer-sub"></p>
+            <dl class="viewer__meta mono" id="viewer-meta"></dl>
+            <p class="viewer__summary" id="viewer-summary"></p>
+            <ul class="tags" id="viewer-tags"></ul>
+            <a class="btn btn--line" id="viewer-link" href="#" target="_blank" rel="noopener" hidden>Visitar <span aria-hidden="true">↗</span></a>
+          </aside>
+        </div>
+        <div class="viewer__thumbs" id="viewer-thumbs"></div>
+      </div>
+    </div>
+
+    <script src="js/projects.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

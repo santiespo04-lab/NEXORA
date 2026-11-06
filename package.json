@@ -1,0 +1,13 @@
+{
+  "name": "nexora",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NEXORA — portfolio de Santiago Esposito: edición de video, motion design, presentaciones, diseño web y HyperFrames.",
+  "author": "Santiago Esposito",
+  "scripts": {
+    "dev": "node scripts/serve.mjs . 3000",
+    "check": "node scripts/build.mjs --check",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/build.mjs && node scripts/serve.mjs dist 4000"
+  }
+}
