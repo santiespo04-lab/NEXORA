@@ -1,0 +1,218 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Archivo";
+      src: url("assets/fonts/archivo-variable.woff2") format("woff2");
+      font-weight: 100 900;
+      font-stretch: 62% 125%;
+      font-display: block;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      color: #f4f3ef;
+      font-family: "Archivo", sans-serif;
+    }
+    #root .mono {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #8b8a86;
+      white-space: pre;
+    }
+    #root .mono b {
+      color: #ff2b2b;
+      font-weight: 600;
+    }
+    #p-cam {
+      position: absolute;
+      inset: 0;
+      transform-origin: 960px 540px;
+    }
+    #root .p-layout {
+      position: absolute;
+      inset: 0;
+    }
+    /* A — the site's hero lockup */
+    #p-a-label { position: absolute; left: 150px; top: 196px; }
+    #p-head {
+      position: absolute;
+      left: 150px;
+      top: 252px;
+      font-weight: 900;
+      font-stretch: 125%;
+      font-size: 150px;
+      line-height: 0.92;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+    #root .p-mask {
+      display: block;
+      overflow: hidden;
+      padding: 0 0.04em 0.04em 0;
+      margin-bottom: -0.04em;
+    }
+    #root .p-row {
+      display: block;
+      white-space: nowrap;
+    }
+    #root .p-red { color: #ff2b2b; }
+    #root .p-out {
+      color: transparent;
+      -webkit-text-stroke: 2.5px #f4f3ef;
+    }
+    #p-role {
+      position: absolute;
+      left: 150px;
+      top: 838px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+    #p-role-dash { width: 56px; height: 3px; background: #ff2b2b; transform-origin: 0 50%; }
+    #p-role-win { height: 52px; overflow: hidden; }
+    #p-role-list { display: flex; flex-direction: column; }
+    #root .p-role-item {
+      height: 52px;
+      line-height: 52px;
+      font-size: 42px;
+      font-weight: 600;
+      color: #ff2b2b;
+      white-space: nowrap;
+    }
+
+    /* B — "Cada frame con intención." + the creative approach */
+    #p-b-label { position: absolute; left: 150px; top: 262px; }
+    #p-b-title {
+      position: absolute;
+      left: 150px;
+      top: 320px;
+      font-size: 158px;
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    #p-b-title span { display: inline-block; }
+    #p-b-title .p-int { font-weight: 800; color: #ff2b2b; }
+    #p-pillars {
+      position: absolute;
+      left: 1262px;
+      top: 330px;
+      width: 520px;
+    }
+    #root .p-pillar {
+      position: relative;
+      padding: 26px 0 30px;
+    }
+    #root .p-pillar-line {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 1px;
+      background: rgba(244, 243, 239, 0.16);
+      transform-origin: 0 50%;
+    }
+    #root .p-pillar-dash {
+      width: 40px;
+      height: 3px;
+      background: #ff2b2b;
+      margin-bottom: 18px;
+      transform-origin: 0 50%;
+    }
+    #root .p-pillar-text {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+  </style>
+  <div id="root" data-composition-id="presentation" data-width="1920" data-height="1080">
+    <div id="p-cam">
+      <div id="p-a" class="p-layout">
+        <div id="p-a-label" class="mono"><b>01</b> — STUDIO</div>
+        <div id="p-head">
+          <span class="p-mask"><span class="p-row">Bienvenido a</span></span>
+          <span class="p-mask"><span class="p-row p-red">Nexora,</span></span>
+          <span class="p-mask"><span class="p-row p-out">Tu mundo</span></span>
+          <span class="p-mask"><span class="p-row p-out">a editar.</span></span>
+        </div>
+        <div id="p-role">
+          <i id="p-role-dash"></i>
+          <div id="p-role-win">
+            <div id="p-role-list">
+              <span class="p-role-item">Diseñador web</span>
+              <span class="p-role-item">Motion designer</span>
+              <span class="p-role-item">Diseñador de presentaciones</span>
+              <span class="p-role-item">Creador con HyperFrames</span>
+              <span class="p-role-item">Editor de video</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="p-b" class="p-layout">
+        <div id="p-b-label" class="mono"><b>●</b> CREATIVE APPROACH</div>
+        <div id="p-b-title">
+          <div><span class="p-w">Cada</span> <span class="p-w">frame</span></div>
+          <div><span class="p-w">con</span> <span class="p-w p-int">intención.</span></div>
+        </div>
+        <div id="p-pillars">
+          <div class="p-pillar"><i class="p-pillar-line"></i><div class="p-pillar-dash"></div><div class="p-mask"><div class="p-pillar-text">Ritmo primero</div></div></div>
+          <div class="p-pillar"><i class="p-pillar-line"></i><div class="p-pillar-dash"></div><div class="p-mask"><div class="p-pillar-text">Identidad en cada frame</div></div></div>
+          <div class="p-pillar"><i class="p-pillar-line"></i><div class="p-pillar-dash"></div><div class="p-mask"><div class="p-pillar-text">Diseño que escala</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var tl = gsap.timeline({ paused: true });
+
+      // arrival from the fly-through: the frame lands slightly large and settles (drop at 0.0)
+      tl.fromTo("#p-cam", { scale: 1.08, filter: "blur(10px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 0);
+      // soft camera truck while the lines are read
+      tl.fromTo("#p-cam", { x: 0 }, { x: -36, duration: 4.1, ease: "sine.inOut" }, 0.5);
+
+      // ---- A: the site headline, line by line through masks, on the beat ----
+      tl.fromTo("#p-a-label", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.45, ease: "expo.out" }, 0.05);
+      var rows = document.querySelectorAll("#p-head .p-row");
+      tl.fromTo(rows, { yPercent: 108 }, { yPercent: 0, duration: 0.62, ease: "expo.out", stagger: 0.12 }, 0.0);
+      tl.fromTo("#p-role-dash", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "expo.out" }, 0.62);
+      // the roles roll like a slot and land on "Editor de video" on the beat (1.5)
+      var H = 52;
+      tl.set("#p-role-list", { y: 0 }, 0);
+      tl.fromTo("#p-role-win", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 0.7);
+      for (var k = 1; k <= 3; k++) {
+        tl.to("#p-role-list", { y: -H * k, duration: 0.1, ease: "power1.inOut" }, 0.82 + (k - 1) * 0.12);
+      }
+      tl.to("#p-role-list", { y: -H * 4, duration: 0.22, ease: "expo.out" }, 1.28);
+
+      // ---- scroll: A leaves upward, B rises (the site's own order: hero → about) ----
+      tl.to("#p-a", { y: -760, filter: "blur(10px)", opacity: 0.2, duration: 0.42, ease: "power3.in" }, 1.98);
+      tl.set("#p-a", { opacity: 0 }, 2.4);
+      tl.fromTo("#p-b", { y: 760, filter: "blur(10px)" }, { y: 0, filter: "blur(0px)", duration: 0.62, ease: "expo.out" }, 2.25);
+      tl.fromTo("#p-b-label", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 2.4);
+      // per word: blur 6px → 0, 0.067 s apart, no translate
+      tl.fromTo("#p-b-title .p-w", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power2.out", stagger: 0.067 }, 2.36);
+
+      // three pillars land on the beats
+      var pillars = document.querySelectorAll("#p-pillars .p-pillar");
+      [2.85, 3.2, 3.55].forEach(function (t, i) {
+        var p = pillars[i];
+        tl.fromTo(p.querySelector(".p-pillar-line"), { scaleX: 0 }, { scaleX: 1, duration: 0.55, ease: "expo.out" }, t - 0.05);
+        tl.fromTo(p.querySelector(".p-pillar-dash"), { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "expo.out" }, t);
+        tl.fromTo(p.querySelector(".p-pillar-text"), { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out" }, t + 0.04);
+      });
+
+      // ---- whip left into the portfolio ----
+      tl.fromTo("#p-cam", { x: -36 }, { x: -640, duration: 0.36, ease: "power3.in", immediateRender: false }, 4.62);
+      tl.to("#p-b", { filter: "blur(14px)", opacity: 0, duration: 0.36, ease: "power3.in" }, 4.62);
+
+      window.__timelines["presentation"] = tl;
+    })();
+  </script>
+</template>

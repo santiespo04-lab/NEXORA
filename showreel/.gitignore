@@ -1,0 +1,5 @@
+# HyperFrames working files (snapshots, check reports, render caches)
+.hyperframes/
+# keep only the delivered render
+renders/*
+!renders/nexora-showreel-16x9.mp4

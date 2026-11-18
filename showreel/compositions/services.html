@@ -1,0 +1,413 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Archivo";
+      src: url("assets/fonts/archivo-variable.woff2") format("woff2");
+      font-weight: 100 900;
+      font-stretch: 62% 125%;
+      font-display: block;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      color: #f4f3ef;
+      font-family: "Archivo", sans-serif;
+    }
+    #root .mono {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #8b8a86;
+      white-space: pre;
+    }
+    #root .mono b { color: #ff2b2b; font-weight: 600; }
+    #s-stage { position: absolute; inset: 0; transform-origin: 960px 540px; }
+    #s-label { position: absolute; left: 150px; top: 128px; }
+    #s-sub { position: absolute; right: 150px; top: 128px; color: #c9c8c3; }
+
+    /* kinetic title: one mask, five words rolling through it */
+    #s-title-mask {
+      position: absolute;
+      left: 150px;
+      top: 186px;
+      width: 1640px;
+      height: 154px;
+      overflow: hidden;
+    }
+    #root .s-title {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-weight: 900;
+      font-stretch: 125%;
+      font-size: 140px;
+      line-height: 154px;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    #root .s-title em { font-style: normal; color: #ff2b2b; }
+
+    /* left column: tags + the big outline index */
+    #s-tags-box { position: absolute; left: 150px; top: 404px; width: 600px; height: 220px; }
+    #root .s-tags { position: absolute; left: 0; top: 0; }
+    #root .s-tag {
+      display: block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 26px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      line-height: 50px;
+      color: #c9c8c3;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    #root .s-tag::before { content: ""; display: inline-block; width: 14px; height: 2px; margin: 0 16px 7px 0; background: #ff2b2b; }
+    #s-num-mask { position: absolute; left: 140px; top: 640px; width: 600px; height: 240px; overflow: hidden; }
+    #root .s-num {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-weight: 900;
+      font-stretch: 125%;
+      font-size: 240px;
+      line-height: 240px;
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(244, 243, 239, 0.3);
+    }
+
+    /* the demo panel (the site's service covers, animated) */
+    #s-panel {
+      position: absolute;
+      left: 810px;
+      top: 372px;
+      width: 960px;
+      height: 500px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #090909;
+      border: 1px solid rgba(244, 243, 239, 0.14);
+      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6);
+    }
+    #s-panel-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 70% 40%, rgba(255, 43, 43, 0.16), rgba(255, 43, 43, 0) 70%),
+        linear-gradient(90deg, rgba(244, 243, 239, 0.045) 1px, transparent 1px);
+      background-size: 100% 100%, 48px 48px;
+    }
+    #root .s-corner { position: absolute; width: 26px; height: 26px; border: 0 solid rgba(244, 243, 239, 0.4); }
+    #root .s-demo { position: absolute; inset: 0; opacity: 0; }
+    #root svg.s-svg { position: absolute; left: 0; top: 0; width: 960px; height: 500px; overflow: visible; }
+
+    /* demo 1: edit */
+    #s-d1-viewer { position: absolute; left: 230px; top: 34px; width: 500px; height: 281px; border: 1px solid rgba(244, 243, 239, 0.25); overflow: hidden; background: #000; }
+    #s-d1-tracks { position: absolute; left: 40px; top: 344px; width: 880px; height: 124px; }
+    #root .s-clipblock { position: absolute; height: 24px; border: 1px solid rgba(244, 243, 239, 0.35); background: rgba(244, 243, 239, 0.12); }
+    #root .s-clipblock.r { border-color: #ff2b2b; background: rgba(255, 43, 43, 0.75); }
+    #s-d1-head { position: absolute; left: 40px; top: 330px; width: 3px; height: 150px; background: #ff2b2b; box-shadow: 0 0 10px rgba(255, 43, 43, 0.9); }
+
+    /* demo 3: slides */
+    #root .s-slide { position: absolute; width: 168px; height: 94.5px; border: 1.5px solid rgba(244, 243, 239, 0.4); background: rgba(9, 9, 9, 0.9); }
+    #root .s-slide i { position: absolute; left: 12px; top: 14px; height: 7px; background: rgba(244, 243, 239, 0.3); }
+    #root .s-slide b { position: absolute; left: 12px; top: 30px; width: 60%; height: 4px; background: rgba(244, 243, 239, 0.13); }
+    #root .s-slide.hot { border: 2.5px solid #ff2b2b; box-shadow: 0 0 30px rgba(255, 43, 43, 0.35); }
+    #root .s-slide.hot i { background: #ff2b2b; }
+
+    /* demo 4: web */
+    #s-d4-browser { position: absolute; left: 150px; top: 60px; width: 660px; height: 380px; border: 2px solid rgba(244, 243, 239, 0.55); }
+    #s-d4-bar { position: absolute; left: 0; top: 0; width: 100%; height: 32px; background: rgba(244, 243, 239, 0.08); }
+    #root .s-d4-dot { position: absolute; top: 11px; width: 10px; height: 10px; border-radius: 50%; background: rgba(244, 243, 239, 0.4); }
+    #s-d4-h1 { position: absolute; left: 40px; top: 78px; width: 300px; height: 26px; background: rgba(244, 243, 239, 0.85); transform-origin: 0 50%; }
+    #s-d4-h2 { position: absolute; left: 40px; top: 118px; width: 230px; height: 10px; background: rgba(244, 243, 239, 0.25); transform-origin: 0 50%; }
+    #s-d4-btn { position: absolute; left: 40px; top: 148px; width: 130px; height: 34px; background: #ff2b2b; }
+    #root .s-d4-card { position: absolute; top: 236px; width: 180px; height: 110px; border: 1.5px solid rgba(244, 243, 239, 0.3); }
+    #s-d4-cursor { position: absolute; left: 0; top: 0; width: 26px; height: 36px; }
+
+    /* demo 5: HyperFrames */
+    #s-d5-code-sign { position: absolute; left: 48px; top: 90px; font-size: 120px; font-weight: 800; line-height: 1; }
+    #s-d5-code {
+      position: absolute;
+      left: 52px;
+      top: 270px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 24px;
+      line-height: 40px;
+      color: #c9c8c3;
+      white-space: pre;
+    }
+    #root .s-frame { position: absolute; border: 1.5px solid rgba(244, 243, 239, 0.4); }
+    #root .s-frame.r { border: 3px solid #ff2b2b; background: rgba(255, 43, 43, 0.06); }
+
+    /* the one timeline */
+    #s-tl { position: absolute; left: 150px; top: 902px; width: 1620px; height: 60px; }
+    #root .s-seg { position: absolute; top: 34px; height: 10px; width: 314px; background: rgba(244, 243, 239, 0.12); }
+    #root .s-seg-fill { position: absolute; inset: 0; background: rgba(244, 243, 239, 0.4); transform-origin: 0 50%; transform: scaleX(0); }
+    #root .s-seg-lab { position: absolute; top: 0; font-family: "JetBrains Mono", monospace; font-size: 17px; letter-spacing: 0.24em; color: #8b8a86; white-space: nowrap; }
+    #s-head { position: absolute; left: 0; top: 14px; width: 3px; height: 46px; background: #ff2b2b; box-shadow: 0 0 12px rgba(255, 43, 43, 0.9); }
+    #s-head::before { content: ""; position: absolute; left: -6px; top: -8px; width: 15px; height: 10px; background: #ff2b2b; }
+  </style>
+  <div id="root" data-composition-id="services" data-width="1920" data-height="1080">
+    <div id="s-stage">
+      <div id="s-label" class="mono"><b>03</b> — SERVICES</div>
+      <div id="s-sub" class="mono">Five disciplines · One timeline</div>
+
+      <div id="s-title-mask">
+        <div class="s-title">Video <em>editing</em></div>
+        <div class="s-title">Motion <em>design</em></div>
+        <div class="s-title"><em>Presentations</em></div>
+        <div class="s-title">Web <em>design</em></div>
+        <div class="s-title">Hyper<em>frames</em></div>
+      </div>
+
+      <div id="s-tags-box">
+        <div class="s-tags"><span class="s-tag">Reels</span><span class="s-tag">Music videos · Spots</span><span class="s-tag">Audiovisual content</span></div>
+        <div class="s-tags"><span class="s-tag">Motion graphics</span><span class="s-tag">Kinetic type</span><span class="s-tag">Animated logos</span></div>
+        <div class="s-tags"><span class="s-tag">Pitch decks</span><span class="s-tag">Keynotes</span><span class="s-tag">Templates</span></div>
+        <div class="s-tags"><span class="s-tag">Landing pages</span><span class="s-tag">Portfolios · UI</span><span class="s-tag">Front-end</span></div>
+        <div class="s-tags"><span class="s-tag">Video as code</span><span class="s-tag">Versions</span><span class="s-tag">Batch renders</span></div>
+      </div>
+      <div id="s-num-mask" data-layout-allow-overflow>
+        <div class="s-num">01</div><div class="s-num">02</div><div class="s-num">03</div><div class="s-num">04</div><div class="s-num">05</div>
+      </div>
+
+      <div id="s-panel">
+        <div id="s-panel-bg"></div>
+
+        <!-- 1 · video editing: a real shot on the viewer, clips snapping onto the tracks -->
+        <div id="s-d1" class="s-demo">
+          <div id="s-d1-viewer"><video id="s-d1-video" class="clip" src="assets/projects/picadas-argentinas-reel.mp4" muted playsinline data-start="0" data-duration="1.1" data-media-start="3.35" data-track-index="1" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover"></video></div>
+          <div id="s-d1-tracks"></div>
+          <div id="s-d1-head"></div>
+        </div>
+
+        <!-- 2 · motion design: arcs + a path with onion-skinned easing -->
+        <div id="s-d2" class="s-demo">
+          <svg class="s-svg" viewBox="0 0 960 500" id="s-d2-svg"></svg>
+        </div>
+
+        <!-- 3 · presentations: a deck, then one slide takes the stage -->
+        <div id="s-d3" class="s-demo"></div>
+
+        <!-- 4 · web design: a page builds, the cursor clicks the call to action -->
+        <div id="s-d4" class="s-demo">
+          <div id="s-d4-browser">
+            <div id="s-d4-bar"><i class="s-d4-dot" style="left:14px;background:#ff2b2b"></i><i class="s-d4-dot" style="left:32px"></i><i class="s-d4-dot" style="left:50px"></i></div>
+            <i id="s-d4-h1"></i><i id="s-d4-h2"></i><i id="s-d4-btn"></i>
+            <i class="s-d4-card" style="left:40px"></i><i class="s-d4-card" style="left:240px"></i><i class="s-d4-card" style="left:440px"></i>
+          </div>
+          <svg id="s-d4-cursor" viewBox="0 0 26 36"><path d="M1 1 L1 30 L8 23 L13 35 L18 33 L13 21 L23 21 Z" fill="#f4f3ef" stroke="#050505" stroke-width="1.5" /></svg>
+        </div>
+
+        <!-- 5 · HyperFrames: code becomes frames -->
+        <div id="s-d5" class="s-demo">
+          <div id="s-d5-code-sign">&lt;/&gt;</div>
+          <div id="s-d5-code"></div>
+          <div id="s-d5-frames"></div>
+        </div>
+
+        <i class="s-corner" style="left:18px;top:18px;border-top-width:2px;border-left-width:2px"></i>
+        <i class="s-corner" style="right:18px;top:18px;border-top-width:2px;border-right-width:2px"></i>
+        <i class="s-corner" style="left:18px;bottom:18px;border-bottom-width:2px;border-left-width:2px"></i>
+        <i class="s-corner" style="right:18px;bottom:18px;border-bottom-width:2px;border-right-width:2px"></i>
+      </div>
+
+      <div id="s-tl" data-layout-ignore>
+        <div class="s-seg" style="left:0"><i class="s-seg-fill"></i></div>
+        <div class="s-seg" style="left:326.5px"><i class="s-seg-fill"></i></div>
+        <div class="s-seg" style="left:653px"><i class="s-seg-fill"></i></div>
+        <div class="s-seg" style="left:979.5px"><i class="s-seg-fill"></i></div>
+        <div class="s-seg" style="left:1306px"><i class="s-seg-fill"></i></div>
+        <span class="s-seg-lab" style="left:0">01 VIDEO</span>
+        <span class="s-seg-lab" style="left:326.5px">02 MOTION</span>
+        <span class="s-seg-lab" style="left:653px">03 SLIDES</span>
+        <span class="s-seg-lab" style="left:979.5px">04 WEB</span>
+        <span class="s-seg-lab" style="left:1306px">05 CODE</span>
+        <i id="s-head"></i>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var NS = "http://www.w3.org/2000/svg";
+      var FPS = 30;
+      function rng(seed) {
+        var s = seed >>> 0;
+        return function () {
+          s = (s + 0x6d2b79f5) >>> 0;
+          var t = s;
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      function el(tag, attrs, parent) {
+        var e = tag.indexOf("svg:") === 0 ? document.createElementNS(NS, tag.slice(4)) : document.createElement(tag);
+        for (var k in attrs) e.setAttribute(k, attrs[k]);
+        parent.appendChild(e);
+        return e;
+      }
+
+      // ---------- build the demo artwork (seeded, like the site covers) ----------
+      var R = rng(4242);
+      var tracks = document.getElementById("s-d1-tracks");
+      var blocks = [];
+      for (var tr = 0; tr < 4; tr++) {
+        var x = R() * 40;
+        while (x < 860) {
+          var len = 70 + R() * 190;
+          var b = el("i", { class: "s-clipblock" + (R() < 0.16 ? " r" : "") }, tracks);
+          b.style.left = x + "px";
+          b.style.top = tr * 32 + "px";
+          b.style.width = Math.min(len, 880 - x) + "px";
+          blocks.push(b);
+          x += len + 6 + R() * 22;
+        }
+      }
+
+      var svg2 = document.getElementById("s-d2-svg");
+      var arcs = [];
+      var cx = 640, cy = 250;
+      for (var i = 0; i < 9; i++) {
+        var rr = 36 + i * 30;
+        var a0 = R() * 6.28, a1 = a0 + 2 + R() * 2.4;
+        var d = "M " + (cx + rr * Math.cos(a0)).toFixed(1) + " " + (cy + rr * Math.sin(a0)).toFixed(1) +
+          " A " + rr + " " + rr + " 0 " + (a1 - a0 > Math.PI ? 1 : 0) + " 1 " + (cx + rr * Math.cos(a1)).toFixed(1) + " " + (cy + rr * Math.sin(a1)).toFixed(1);
+        arcs.push(el("svg:path", { d: d, fill: "none", stroke: i === 4 ? "#ff2b2b" : "rgba(244,243,239," + (0.14 + i * 0.05).toFixed(2) + ")", "stroke-width": i === 4 ? 4 : 1.6, pathLength: 100, "stroke-dasharray": "100 120", "stroke-dashoffset": 110, "stroke-linecap": "round" }, svg2));
+      }
+      var P0 = [60, 440], P1 = [300, 30], P2 = [430, 500], P3 = [cx, cy];
+      var path = el("svg:path", { d: "M 60 440 C 300 30 430 500 " + cx + " " + cy, fill: "none", stroke: "rgba(244,243,239,0.6)", "stroke-width": 2, pathLength: 100, "stroke-dasharray": "100 120", "stroke-dashoffset": 110 }, svg2);
+      function bez(t) {
+        var u = 1 - t;
+        return [
+          u * u * u * P0[0] + 3 * u * u * t * P1[0] + 3 * u * t * t * P2[0] + t * t * t * P3[0],
+          u * u * u * P0[1] + 3 * u * u * t * P1[1] + 3 * u * t * t * P2[1] + t * t * t * P3[1],
+        ];
+      }
+      var ghosts = [];
+      for (var g = 0; g < 5; g++) ghosts.push(el("svg:circle", { r: 9, cx: P0[0], cy: P0[1], fill: "rgba(255,43,43," + (0.12 + g * 0.08).toFixed(2) + ")" }, svg2));
+      var dot = el("svg:circle", { r: 12, cx: P0[0], cy: P0[1], fill: "#ff2b2b" }, svg2);
+
+      var d3 = document.getElementById("s-d3");
+      var slides = [];
+      for (var s = 0; s < 8; s++) {
+        var sl = el("div", { class: "s-slide" + (s === 5 ? " hot" : "") }, d3);
+        sl.style.left = 108 + (s % 4) * 190 + "px";
+        sl.style.top = 140 + Math.floor(s / 4) * 116 + "px";
+        var bar = el("i", {}, sl);
+        bar.style.width = 30 + R() * 40 + "%";
+        el("b", {}, sl);
+        slides.push(sl);
+      }
+
+      var frames = document.getElementById("s-d5-frames");
+      var fr = [];
+      for (var f = 6; f >= 0; f--) {
+        var fw = 400 - f * 40, fh = fw * 0.5625;
+        var fe = el("i", { class: "s-frame" + (f === 0 ? " r" : "") }, frames);
+        fe.style.width = fw + "px";
+        fe.style.height = fh + "px";
+        fe.style.left = 640 - fw / 2 + "px";
+        fe.style.top = 250 - fh / 2 + "px";
+        fe.style.opacity = (0.95 - f * 0.11).toFixed(2);
+        fr.push({ e: fe, f: f });
+      }
+
+      // ---------- timeline ----------
+      var tl = gsap.timeline({ paused: true });
+      // arrival out of the presentation zoom
+      tl.fromTo("#s-stage", { scale: 1.07, filter: "blur(10px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 0);
+      tl.fromTo(["#s-label", "#s-sub"], { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0.05);
+      tl.fromTo("#s-panel", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 0.0);
+
+      var titles = document.querySelectorAll("#s-title-mask .s-title");
+      var tags = document.querySelectorAll("#s-tags-box .s-tags");
+      var nums = document.querySelectorAll("#s-num-mask .s-num");
+      var demos = ["#s-d1", "#s-d2", "#s-d3", "#s-d4", "#s-d5"];
+      var segFill = document.querySelectorAll("#s-tl .s-seg-fill");
+      var labs = document.querySelectorAll("#s-tl .s-seg-lab");
+      var starts = [0, 1, 2, 3, 4];
+      starts.forEach(function (T, i) {
+        var tin = i === 0 ? 0.02 : T + 0.06;
+        tl.fromTo(titles[i], { yPercent: 105 }, { yPercent: 0, duration: 0.5, ease: "expo.out" }, tin);
+        tl.fromTo(nums[i], { yPercent: 100 }, { yPercent: 0, duration: 0.55, ease: "expo.out" }, tin + 0.04);
+        tl.fromTo(tags[i].children, { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.35, ease: "expo.out", stagger: 0.06 }, tin + 0.1);
+        tl.set(demos[i], { opacity: 1 }, T);
+        tl.set(labs[i], { color: "#f4f3ef" }, T);
+        tl.fromTo(segFill[i], { scaleX: 0 }, { scaleX: 1, duration: i === 4 ? 0.75 : 1, ease: "none" }, T);
+        tl.set(segFill[i], { backgroundColor: "#ff2b2b" }, T);
+        if (i < 4) {
+          var out = T + 1 - 0.06;
+          tl.to(titles[i], { yPercent: -105, duration: 0.26, ease: "power3.in" }, out - 0.14);
+          tl.to(nums[i], { yPercent: -100, duration: 0.26, ease: "power3.in" }, out - 0.12);
+          tl.to(tags[i].children, { opacity: 0, duration: 0.14, ease: "power2.in" }, out - 0.1);
+          tl.to(demos[i], { opacity: 0, filter: "blur(8px)", duration: 0.14, ease: "power2.in" }, out - 0.08);
+          tl.set(segFill[i], { backgroundColor: "rgba(244,243,239,0.4)" }, T + 1);
+          tl.set(labs[i], { color: "#8b8a86" }, T + 1);
+        }
+      });
+      // the playhead runs the whole scene
+      tl.fromTo("#s-head", { x: 0 }, { x: 1620 * 0.95, duration: 4.75, ease: "none" }, 0);
+
+      // demo 1 · edit (0–1)
+      tl.fromTo(blocks, { x: 120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "expo.out", stagger: 0.012 }, 0.05);
+      tl.fromTo("#s-d1-head", { x: 0 }, { x: 860, duration: 0.95, ease: "none" }, 0.05);
+      tl.fromTo("#s-d1-viewer", { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "expo.out" }, 0.02);
+
+      // demo 2 · motion (1–2)
+      arcs.forEach(function (a, i) {
+        tl.fromTo(a, { attr: { "stroke-dashoffset": 110 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.55, ease: "expo.out" }, 1.02 + i * 0.03);
+      });
+      tl.fromTo(path, { attr: { "stroke-dashoffset": 110 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.45, ease: "power2.inOut" }, 1.05);
+      var ease = gsap.parseEase("power3.inOut");
+      for (var k = 0; k <= 18; k++) {
+        var p = ease(k / 18);
+        var q = bez(p);
+        tl.set(dot, { attr: { cx: q[0], cy: q[1] } }, 1.35 + k / FPS);
+        ghosts.forEach(function (gh, gi) {
+          var pg = ease(Math.max(0, k - (5 - gi) * 1.6) / 18);
+          var qg = bez(pg);
+          tl.set(gh, { attr: { cx: qg[0], cy: qg[1] } }, 1.35 + k / FPS);
+        });
+      }
+
+      // demo 3 · presentations (2–3)
+      tl.fromTo(slides, { scale: 0.82, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "expo.out", stagger: 0.035 }, 2.02);
+      tl.to(slides.filter(function (x, i) { return i !== 5; }), { opacity: 0.2, duration: 0.3, ease: "power2.inOut" }, 2.5);
+      tl.to(slides[5], { x: 480 - (108 + 1 * 190 + 84), y: 250 - (140 + 116 + 47), scale: 2.5, duration: 0.42, ease: "power3.inOut" }, 2.48);
+
+      // demo 4 · web (3–4)
+      tl.fromTo("#s-d4-browser", { clipPath: "inset(0% 100% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.35, ease: "expo.out" }, 3.02);
+      tl.fromTo("#s-d4-h1", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "expo.out" }, 3.14);
+      tl.fromTo("#s-d4-h2", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "expo.out" }, 3.2);
+      tl.fromTo("#s-d4-btn", { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.6)" }, 3.26);
+      tl.fromTo("#s-d4 .s-d4-card", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "expo.out", stagger: 0.05 }, 3.3);
+      tl.fromTo("#s-d4-cursor", { x: 760, y: 420 }, { x: 290, y: 225, duration: 0.36, ease: "power3.out" }, 3.3);
+      tl.to("#s-d4-btn", { scale: 0.9, backgroundColor: "#ff6a6a", duration: 0.06, ease: "power2.out" }, 3.68);
+      tl.to("#s-d4-btn", { scale: 1, backgroundColor: "#ff2b2b", duration: 0.22, ease: "expo.out" }, 3.74);
+      tl.to("#s-d4-cursor", { scale: 0.88, duration: 0.06, ease: "power2.out", transformOrigin: "0 0" }, 3.68);
+      tl.to("#s-d4-cursor", { scale: 1, duration: 0.2, ease: "expo.out" }, 3.74);
+
+      // demo 5 · HyperFrames (4–4.75): lands on the hit at 4.0
+      var code = '<div class="clip"\n  data-start="0"\n  data-duration="34">';
+      var codeEl = document.getElementById("s-d5-code");
+      var steps = 13;
+      for (var c = 0; c <= steps; c++) tl.set(codeEl, { textContent: code.slice(0, Math.round((c / steps) * code.length)) }, 4.02 + c / FPS);
+      tl.fromTo("#s-d5-code-sign", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35, ease: "expo.out" }, 4.0);
+      fr.forEach(function (o) {
+        tl.fromTo(o.e, { x: -180, y: 0, scale: 0.6 }, { x: o.f * 38, y: -o.f * 12, scale: 1, duration: 0.5, ease: "expo.out" }, 4.04 + (6 - o.f) * 0.025);
+      });
+      tl.set("#s-panel", { borderColor: "rgba(255,43,43,0.9)" }, 4.0);
+      tl.to("#s-panel", { borderColor: "rgba(244,243,239,0.14)", duration: 0.5, ease: "expo.out" }, 4.0);
+
+      // exit: the stage pulls back into the dip before the drop
+      tl.to("#s-stage", { scale: 0.94, opacity: 0, filter: "blur(10px)", duration: 0.34, ease: "power2.in" }, 4.64);
+
+      window.__timelines["services"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,351 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Archivo";
+      src: url("assets/fonts/archivo-variable.woff2") format("woff2");
+      font-weight: 100 900;
+      font-stretch: 62% 125%;
+      font-display: block;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      color: #f4f3ef;
+      font-family: "Archivo", sans-serif;
+    }
+    #root .mono {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #8b8a86;
+      white-space: pre;
+    }
+    #root .mono b { color: #ff2b2b; font-weight: 600; }
+    #root .fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ---- header ---- */
+    #w-head { position: absolute; inset: 0; }
+    #w-head-label { position: absolute; left: 150px; top: 196px; }
+    #w-head-title {
+      position: absolute;
+      left: 150px;
+      top: 250px;
+      font-weight: 900;
+      font-stretch: 125%;
+      font-size: 140px;
+      line-height: 0.92;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    #w-head-title span { display: inline-block; }
+
+    /* ---- 01 · the reel player (the site's featured card) ---- */
+    #w-player {
+      position: absolute;
+      left: 240px;
+      top: 72px;
+      width: 1440px;
+      height: 810px;
+      transform-origin: 0 0;
+      background: #000;
+      border: 1px solid rgba(244, 243, 239, 0.16);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(0, 0, 0, 0.6);
+    }
+    #root .w-vw { position: absolute; inset: 0; transform-origin: 50% 50%; }
+    #w-player-bar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 96px;
+      padding: 26px 30px 0;
+      display: flex;
+      justify-content: space-between;
+      background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+    }
+    #w-player-bar .mono { font-size: 20px; color: #c9c8c3; }
+    #w-scrub { position: absolute; left: 0; bottom: 0; width: 100%; height: 4px; background: rgba(244, 243, 239, 0.12); }
+    #w-scrub-fill { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #ff2b2b; transform-origin: 0 50%; box-shadow: 0 0 12px rgba(255, 43, 43, 0.8); }
+
+    /* ---- 02 · key-visual wall ---- */
+    #w-wall { position: absolute; inset: 0; transform-origin: 960px 520px; }
+    #root .w-row { position: absolute; left: 0; display: flex; gap: 24px; }
+    #w-row-1 { top: 150px; }
+    #w-row-2 { top: 534px; }
+    #root .w-tile {
+      position: relative;
+      flex: 0 0 auto;
+      width: 640px;
+      height: 360px;
+      border: 1px solid rgba(244, 243, 239, 0.14);
+      border-radius: 4px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+    }
+
+    /* ---- 03 · web: browser + phone with the real site ---- */
+    #w-web { position: absolute; inset: 0; }
+    #w-browser {
+      position: absolute;
+      left: 240px;
+      top: 96px;
+      width: 1290px;
+      height: 772px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #0b0b0b;
+      border: 1px solid rgba(244, 243, 239, 0.16);
+      box-shadow: 0 50px 140px rgba(0, 0, 0, 0.7);
+    }
+    #w-chrome {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 46px;
+      background: #141414;
+      border-bottom: 1px solid rgba(244, 243, 239, 0.08);
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      gap: 9px;
+    }
+    #root .w-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(244, 243, 239, 0.22); }
+    #root .w-dot.r { background: #ff2b2b; }
+    #w-addr {
+      margin-left: 22px;
+      height: 28px;
+      width: 420px;
+      border-radius: 14px;
+      background: #0b0b0b;
+      border: 1px solid rgba(244, 243, 239, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #8b8a86;
+      letter-spacing: 0.02em;
+    }
+    #w-addr i { width: 9px; height: 9px; border-radius: 50%; background: #ff2b2b; }
+    #w-view { position: absolute; left: 0; top: 46px; width: 1290px; height: 726px; overflow: hidden; }
+    #w-site-desk { position: absolute; left: 0; top: 0; width: 1290px; height: auto; display: block; }
+    #w-phone {
+      position: absolute;
+      left: 1404px;
+      top: 150px;
+      width: 354px;
+      height: 738px;
+      border-radius: 54px;
+      background: #0d0d0d;
+      border: 1px solid rgba(244, 243, 239, 0.22);
+      box-shadow: 0 50px 120px rgba(0, 0, 0, 0.8), inset 0 0 0 2px rgba(0, 0, 0, 0.9);
+      padding: 12px;
+    }
+    #w-phone-screen { position: relative; width: 330px; height: 714px; border-radius: 43px; overflow: hidden; background: #050505; }
+    #w-site-mob { position: absolute; left: 0; top: 0; width: 330px; height: auto; display: block; }
+    #w-island { position: absolute; left: 50%; top: 11px; width: 98px; height: 28px; margin-left: -49px; border-radius: 14px; background: #000; }
+
+    /* ---- 04 · vertical presentation ---- */
+    #w-ratio {
+      position: absolute;
+      left: 230px;
+      top: 250px;
+      height: 300px;
+      overflow: hidden;
+      font-weight: 900;
+      font-stretch: 125%;
+      font-size: 270px;
+      line-height: 300px;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    #w-ratio span { display: inline-block; color: transparent; -webkit-text-stroke: 2.5px rgba(244, 243, 239, 0.75); }
+    #w-ratio span.r { -webkit-text-stroke-color: #ff2b2b; }
+    #w-ratio-sub { position: absolute; left: 240px; top: 590px; }
+    #w-vert {
+      position: absolute;
+      left: 1190px;
+      top: 70px;
+      width: 440px;
+      height: 782px;
+      border-radius: 26px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(244, 243, 239, 0.18);
+      box-shadow: 0 50px 140px rgba(0, 0, 0, 0.7);
+      transform-origin: 50% 40%;
+    }
+
+    /* ---- the shared project caption ---- */
+    #w-info { position: absolute; left: 240px; top: 900px; width: 1440px; height: 64px; }
+    #root .w-item {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      opacity: 0;
+    }
+    #root .w-item-l { display: flex; align-items: baseline; gap: 26px; white-space: nowrap; }
+    #root .w-idx { font-size: 22px; }
+    #root .w-title { font-size: 46px; font-weight: 800; letter-spacing: -0.01em; }
+    #root .w-sub { font-size: 32px; font-weight: 400; color: #c9c8c3; }
+    #root .w-cats { font-size: 20px; letter-spacing: 0.24em; }
+  </style>
+  <div id="root" data-composition-id="portfolio" data-width="1920" data-height="1080">
+    <!-- header -->
+    <div id="w-head">
+      <div id="w-head-label" class="mono"><b>02</b> — PROJECTS</div>
+      <div id="w-head-title"><span>Selected</span> <span>work</span></div>
+    </div>
+
+    <!-- 01 · Picadas Argentinas reel -->
+    <div id="w-player">
+      <div id="w-vw1" class="w-vw"><video id="w-v1" class="clip fill" src="assets/projects/picadas-argentinas-reel.mp4" muted playsinline data-start="0.18" data-duration="3.32" data-media-start="1.68" data-track-index="1"></video></div>
+      <div id="w-vw3" class="w-vw"><video id="w-v3" class="clip fill" src="assets/projects/picadas-argentinas-reel.mp4" muted playsinline data-start="3.5" data-duration="0.5" data-media-start="5.9" data-track-index="1"></video></div>
+      <div id="w-vw4" class="w-vw"><video id="w-v4" class="clip fill" src="assets/projects/picadas-argentinas-reel.mp4" muted playsinline data-start="4" data-duration="0.5" data-media-start="7.75" data-track-index="1"></video></div>
+      <div id="w-vw5" class="w-vw"><video id="w-v5" class="clip fill" src="assets/projects/picadas-argentinas-reel.mp4" muted playsinline data-start="4.5" data-duration="0.7" data-media-start="9.6" data-track-index="1"></video></div>
+      <div id="w-player-bar"><span class="mono">Motion design</span><span class="mono">00:12</span></div>
+      <div id="w-scrub"><i id="w-scrub-fill"></i></div>
+    </div>
+
+    <!-- 02 · key visuals -->
+    <div id="w-wall">
+      <div id="w-row-1" class="w-row">
+        <div class="w-tile"><img class="fill" src="assets/projects/picadas-largada.jpg" alt="" /></div>
+        <div class="w-tile"><img class="fill" src="assets/projects/picadas-carrera.jpg" alt="" /></div>
+        <div class="w-tile"><img class="fill" src="assets/projects/picadas-competencia.jpg" alt="" /></div>
+        <div class="w-tile"><img class="fill" src="assets/projects/picadas-precision.jpg" alt="" /></div>
+      </div>
+      <div id="w-row-2" class="w-row">
+        <div class="w-tile"><video id="w-t1" class="clip fill" src="assets/projects/picadas-argentinas-reel.mp4" muted playsinline data-start="4.9" data-duration="2.4" data-media-start="1.0" data-track-index="2"></video></div>
+        <div class="w-tile"><img class="fill" src="assets/projects/picadas-leyenda.jpg" alt="" /></div>
+        <div class="w-tile"><img class="fill" src="assets/projects/picadas-entra-y-conduce.jpg" alt="" /></div>
+        <div class="w-tile"><video id="w-t2" class="clip fill" src="assets/projects/picadas-argentinas-reel.mp4" muted playsinline data-start="4.93" data-duration="2.37" data-media-start="5.2" data-track-index="3"></video></div>
+      </div>
+    </div>
+
+    <!-- 03 · the NEXORA site -->
+    <div id="w-web">
+      <div id="w-browser">
+        <div id="w-chrome"><i class="w-dot r"></i><i class="w-dot"></i><i class="w-dot"></i><div id="w-addr"><i></i>NEXORA — Santiago Esposito</div></div>
+        <div id="w-view"><img id="w-site-desk" src="assets/site/nexora-web-desktop.jpg" alt="" /></div>
+      </div>
+      <div id="w-phone">
+        <div id="w-phone-screen"><img id="w-site-mob" src="assets/site/nexora-web-mobile.jpg" alt="" /><i id="w-island"></i></div>
+      </div>
+    </div>
+
+    <!-- 04 · vertical brand presentation -->
+    <div id="w-ratio"><span>9</span><span class="r">:</span><span>16</span></div>
+    <div id="w-ratio-sub" class="mono">Formato vertical · 1080 × 1920</div>
+    <div id="w-vert">
+      <video id="w-pres" class="clip fill" src="assets/media/nexora-presentacion-9x16.mp4" muted playsinline data-start="10.35" data-duration="1.65" data-media-start="0.25" data-track-index="1"></video>
+    </div>
+
+    <!-- caption -->
+    <div id="w-info">
+      <div id="w-i1" class="w-item">
+        <div class="w-item-l"><span class="mono w-idx"><b>01</b> / 04</span><span class="w-title">Picadas Argentinas</span><span class="w-sub">Reel promocional</span></div>
+        <span class="mono w-cats">Edición · Motion graphics</span>
+      </div>
+      <div id="w-i2" class="w-item">
+        <div class="w-item-l"><span class="mono w-idx"><b>02</b> / 04</span><span class="w-title">Picadas Argentinas</span><span class="w-sub">Key visuals</span></div>
+        <span class="mono w-cats">Diseño automotor · Gráfica</span>
+      </div>
+      <div id="w-i3" class="w-item">
+        <div class="w-item-l"><span class="mono w-idx"><b>03</b> / 04</span><span class="w-title">NEXORA</span><span class="w-sub">Sitio web</span></div>
+        <span class="mono w-cats">Diseño UI · Front-end</span>
+      </div>
+      <div id="w-i4" class="w-item">
+        <div class="w-item-l"><span class="mono w-idx"><b>04</b> / 04</span><span class="w-title">NEXORA</span><span class="w-sub">Presentación 9:16</span></div>
+        <span class="mono w-cats">Motion graphics · Vertical</span>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var tl = gsap.timeline({ paused: true });
+
+      // ================= header (0.0–1.0) =================
+      tl.fromTo("#w-head-label", { opacity: 0, x: 120, filter: "blur(8px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, 0);
+      tl.fromTo("#w-head-title span", { x: 260, opacity: 0, filter: "blur(14px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out", stagger: 0.07 }, 0);
+      // the frame sits under the title, then grows into the player (object becomes the world)
+      tl.fromTo("#w-player", { x: -90, y: 430, scale: 0.4, opacity: 0 }, { x: -90, y: 430, scale: 0.4, opacity: 1, duration: 0.25, ease: "power2.out" }, 0.18);
+      tl.to("#w-player", { x: 0, y: 0, scale: 1, duration: 0.42, ease: "power3.inOut" }, 0.6);
+      tl.to("#w-head", { y: -140, opacity: 0, filter: "blur(10px)", duration: 0.32, ease: "power3.in" }, 0.6);
+
+      // ================= 01 · reel montage, one cut per beat (1.0–5.0) =================
+      // one continuous take (lights → PICADAS → CARRERA on the beat at 1.5), punch-ins on the beats
+      tl.fromTo("#w-vw1", { scale: 1.0 }, { scale: 1.06, duration: 0.5, ease: "expo.out" }, 1.5);
+      tl.to("#w-vw1", { scale: 1.0, duration: 0.5, ease: "expo.out" }, 2.5);
+      [["#w-vw3", 3.5, 0.5], ["#w-vw4", 4.0, 0.5], ["#w-vw5", 4.5, 0.6]].forEach(function (c) {
+        // each shot arrives slightly large and settles, then keeps a slow push
+        tl.fromTo(c[0], { scale: 1.07 }, { scale: 1.0, duration: 0.4, ease: "expo.out" }, c[1]);
+        if (c[2] > 0.6) tl.to(c[0], { scale: 1.035, duration: c[2] - 0.4, ease: "sine.inOut" }, c[1] + 0.4);
+      });
+      tl.fromTo("#w-scrub-fill", { scaleX: 0 }, { scaleX: 1, duration: 4.0, ease: "none" }, 1.0);
+      tl.fromTo("#w-player-bar", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 1.0);
+      // whip left into the wall
+      tl.to("#w-player", { x: -1900, filter: "blur(16px)", duration: 0.34, ease: "power3.in" }, 4.82);
+
+      // ================= 02 · key-visual wall (4.95–7.0) =================
+      tl.fromTo("#w-row-1", { x: 2000, filter: "blur(16px)" }, { x: -210, filter: "blur(0px)", duration: 0.62, ease: "expo.out" }, 4.98);
+      tl.fromTo("#w-row-2", { x: 2100, filter: "blur(16px)" }, { x: -560, filter: "blur(0px)", duration: 0.7, ease: "expo.out" }, 5.02);
+      // opposite parallax drift + a slow dolly in
+      tl.to("#w-row-1", { x: -330, duration: 1.4, ease: "sine.inOut" }, 5.6);
+      tl.to("#w-row-2", { x: -450, duration: 1.3, ease: "sine.inOut" }, 5.72);
+      tl.fromTo("#w-wall", { scale: 1.0 }, { scale: 1.05, duration: 2.0, ease: "sine.inOut" }, 5.0);
+      // vertical move up into the web piece
+      tl.to("#w-wall", { y: -1150, filter: "blur(12px)", duration: 0.38, ease: "power3.in" }, 6.82);
+
+      // ================= 03 · NEXORA site (7.0–10.5) =================
+      tl.fromTo("#w-browser", { y: 1100, filter: "blur(12px)" }, { y: 0, filter: "blur(0px)", duration: 0.66, ease: "expo.out" }, 6.98);
+      tl.fromTo("#w-phone", { y: 1300, filter: "blur(12px)" }, { y: 0, filter: "blur(0px)", duration: 0.78, ease: "expo.out" }, 7.06);
+      // the site scrolls for real: hero → about → selected work
+      tl.fromTo("#w-site-desk", { y: 0 }, { y: -726, duration: 0.6, ease: "power2.inOut" }, 7.75);
+      tl.to("#w-site-desk", { y: -1881, duration: 0.75, ease: "power3.inOut" }, 8.75);
+      tl.fromTo("#w-site-mob", { y: 0 }, { y: -560, duration: 0.6, ease: "power2.inOut" }, 8.05);
+      tl.to("#w-site-mob", { y: -1150, duration: 0.7, ease: "power3.inOut" }, 9.05);
+      // parallax while it holds: the phone is closer, so it travels further
+      tl.to("#w-browser", { x: -16, duration: 2.6, ease: "sine.inOut" }, 7.65);
+      tl.to("#w-phone", { x: -38, duration: 2.45, ease: "sine.inOut" }, 7.75);
+      // whip left into the presentation
+      tl.to("#w-browser", { x: -1700, filter: "blur(16px)", duration: 0.36, ease: "power3.in" }, 10.26);
+      tl.to("#w-phone", { x: -1950, filter: "blur(14px)", duration: 0.38, ease: "power3.in" }, 10.24);
+
+      // ================= 04 · vertical presentation (10.4–12.0) =================
+      tl.fromTo("#w-vert", { x: 900, filter: "blur(14px)" }, { x: 0, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 10.4);
+      tl.fromTo("#w-ratio span", { yPercent: 100 }, { yPercent: 0, duration: 0.55, ease: "expo.out", stagger: 0.06 }, 10.5);
+      tl.fromTo("#w-ratio-sub", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, 10.7);
+      // it grows past the frame: the presentation's services become the next scene
+      tl.to(["#w-ratio", "#w-ratio-sub"], { opacity: 0, filter: "blur(10px)", duration: 0.25, ease: "power2.in" }, 11.5);
+      tl.to("#w-vert", { x: -400, scale: 4.6, borderRadius: 0, filter: "blur(12px)", duration: 0.46, ease: "power3.in" }, 11.54);
+
+      // ================= captions: blur swap on one stage =================
+      [["#w-i1", 1.05, 4.78], ["#w-i2", 5.25, 6.8], ["#w-i3", 7.4, 10.2], ["#w-i4", 10.5, 11.62]].forEach(function (c) {
+        tl.fromTo(c[0], { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.28, ease: "power2.out" }, c[1]);
+        tl.to(c[0], { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power2.in" }, c[2]);
+      });
+
+      window.__timelines["portfolio"] = tl;
+    })();
+  </script>
+</template>

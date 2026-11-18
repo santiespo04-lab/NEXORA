@@ -1,0 +1,207 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #050505;
+    }
+    #root .wd-haze {
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    #wd-haze-a {
+      width: 1800px;
+      height: 1800px;
+      margin: -900px 0 0 -900px;
+      background: radial-gradient(closest-side, rgba(255, 43, 43, 0.5), rgba(200, 16, 30, 0.22) 45%, rgba(200, 16, 30, 0) 100%);
+    }
+    #wd-haze-b {
+      width: 1400px;
+      height: 1400px;
+      margin: -700px 0 0 -700px;
+      background: radial-gradient(closest-side, rgba(200, 16, 30, 0.42), rgba(200, 16, 30, 0) 100%);
+    }
+    /* each depth layer: a scale wrapper (camera zoom) around a tiled plane (camera pan) */
+    #root .wd-layer {
+      position: absolute;
+      left: -400px;
+      top: -400px;
+      width: 2720px;
+      height: 1880px;
+      transform-origin: 1360px 940px;
+    }
+    #root .wd-plane {
+      position: absolute;
+      inset: 0;
+      background-repeat: repeat;
+    }
+    #wd-grid-plane {
+      background-image:
+        linear-gradient(rgba(244, 243, 239, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(244, 243, 239, 0.045) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+  </style>
+  <div id="root" data-composition-id="world" data-width="1920" data-height="1080">
+    <div id="wd-haze-a" class="wd-haze"></div>
+    <div id="wd-haze-b" class="wd-haze"></div>
+    <div id="wd-grid" class="wd-layer"><div id="wd-grid-plane" class="wd-plane"></div></div>
+    <div id="wd-far" class="wd-layer"><div id="wd-far-plane" class="wd-plane"></div></div>
+    <div id="wd-mid" class="wd-layer"><div id="wd-mid-plane" class="wd-plane"></div></div>
+    <div id="wd-near" class="wd-layer"><div id="wd-near-plane" class="wd-plane"></div></div>
+  </div>
+  <script>
+    (function () {
+      // seeded rng (same generator the NEXORA site uses for its dust)
+      function rng(seed) {
+        var s = seed >>> 0;
+        return function () {
+          s = (s + 0x6d2b79f5) >>> 0;
+          var t = s;
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      // dust tiles: an SVG of dots repeated across an infinite plane, so the camera can travel freely
+      function dustTile(seed, w, h, n, r0, r1, a0, a1, redShare, blur) {
+        var R = rng(seed);
+        var dots = "";
+        for (var i = 0; i < n; i++) {
+          var red = R() < redShare;
+          var r = (r0 + R() * (r1 - r0)).toFixed(2);
+          var a = (a0 + R() * (a1 - a0)).toFixed(2);
+          dots +=
+            "<circle cx='" + (R() * w).toFixed(1) + "' cy='" + (R() * h).toFixed(1) + "' r='" + r +
+            "' fill='" + (red ? "%23ff2b2b" : "%23f4f3ef") + "' fill-opacity='" + a + "'" +
+            (blur ? " filter='url(%23b)'" : "") + "/>";
+        }
+        var defs = blur ? "<defs><filter id='b'><feGaussianBlur stdDeviation='" + blur + "'/></filter></defs>" : "";
+        return "url(\"data:image/svg+xml," + "<svg xmlns='http://www.w3.org/2000/svg' width='" + w + "' height='" + h + "'>" + defs + dots + "</svg>\")";
+      }
+      var far = document.getElementById("wd-far-plane");
+      var mid = document.getElementById("wd-mid-plane");
+      var near = document.getElementById("wd-near-plane");
+      far.style.backgroundImage = dustTile(11, 1013, 587, 16, 0.6, 1.1, 0.18, 0.4, 0.08, 0);
+      far.style.backgroundSize = "1013px 587px";
+      mid.style.backgroundImage = dustTile(23, 1381, 761, 13, 1.0, 1.7, 0.3, 0.55, 0.12, 0);
+      mid.style.backgroundSize = "1381px 761px";
+      near.style.backgroundImage = dustTile(37, 1777, 997, 7, 1.8, 3.0, 0.45, 0.75, 0.16, 0.7);
+      near.style.backgroundSize = "1777px 997px";
+
+      var tl = gsap.timeline({ paused: true });
+      var E = 34;
+
+      // ---- camera: one path, every layer follows it at its own depth (parallax) ----
+      var layers = [
+        { plane: "#wd-grid-plane", wrap: "#wd-grid", f: 0.55, drift: 0 },
+        { plane: "#wd-far-plane", wrap: "#wd-far", f: 0.3, drift: -70 },
+        { plane: "#wd-mid-plane", wrap: "#wd-mid", f: 0.65, drift: -170 },
+        { plane: "#wd-near-plane", wrap: "#wd-near", f: 1.1, drift: -330 },
+      ];
+      // [time, value, ease into this key]  (ease "set" = hard cut)
+      var X = [
+        [0, 0], [3.5, 0], [7.6, -70, "sine.inOut"], [8.0, -480, "power3.in"], [8.5, -600, "expo.out"],
+        [12.75, -660, "sine.inOut"], [13.35, -1250, "power3.inOut"], [18.2, -1300, "sine.inOut"],
+        [18.8, -1750, "power3.inOut"], [24.6, -1830, "sine.inOut"], [29.9, -1880, "sine.inOut"], [34, -1890, "sine.inOut"],
+      ];
+      var Y = [
+        [0, 0], [4.95, 0], [5.4, -320, "power3.inOut"], [14.8, -360, "sine.inOut"], [15.35, -900, "power3.inOut"],
+        [34, -980, "sine.inOut"],
+      ];
+      var S = [
+        [0, 1.08], [1.0, 1.0, "power3.out"], [2.5, 1.0], [3.0, 1.7, "power3.in"], [3.0, 1.12, "set"], [3.55, 1.0, "expo.out"],
+        [19.55, 1.0], [20.0, 1.4, "power3.in"], [20.0, 1.1, "set"], [20.5, 1.0, "expo.out"],
+        [24.6, 1.0], [25.0, 0.94, "power2.in"], [25.0, 1.07, "set"], [25.6, 1.0, "expo.out"],
+        [30.0, 1.0], [31.0, 1.03, "sine.inOut"], [31.0, 1.08, "set"], [31.9, 1.0, "expo.out"],
+        [33.0, 1.0], [34, 1.12, "power2.in"],
+      ];
+      var B = [
+        [0, 0], [2.6, 0], [2.97, 6, "power2.in"], [3.0, 3, "set"], [3.3, 0, "power2.out"],
+        [7.7, 0], [8.0, 6, "power2.in"], [8.4, 0, "power2.out"],
+        [12.85, 0], [13.05, 6, "power2.in"], [13.4, 0, "power2.out"],
+        [14.9, 0], [15.1, 5, "power2.in"], [15.4, 0, "power2.out"],
+        [18.35, 0], [18.55, 5, "power2.in"], [18.85, 0, "power2.out"],
+        [19.6, 0], [19.97, 6, "power2.in"], [20.0, 3, "set"], [20.35, 0, "power2.out"],
+      ];
+      function track(keys, apply) {
+        apply(keys[0][1], 0, null, 0);
+        for (var i = 1; i < keys.length; i++) {
+          var a = keys[i - 1], b = keys[i];
+          if (b[2] === "set") { apply(b[1], 0, null, b[0]); continue; }
+          if (b[0] - a[0] <= 0) continue;
+          if (a[1] === b[1]) continue;
+          apply(b[1], b[0] - a[0], b[2] || "none", a[0], a[1]);
+        }
+      }
+      layers.forEach(function (L) {
+        var plane = document.querySelector(L.plane);
+        var wrap = document.querySelector(L.wrap);
+        track(X, function (v, d, ease, at, from) {
+          if (!d) tl.set(plane, { backgroundPositionX: v * L.f + "px" }, at);
+          else tl.fromTo(plane, { backgroundPositionX: from * L.f + "px" }, { backgroundPositionX: v * L.f + "px", duration: d, ease: ease, immediateRender: false }, at);
+        });
+        track(Y, function (v, d, ease, at, from) {
+          if (!d) tl.set(plane, { backgroundPositionY: v * L.f + "px" }, at);
+          else tl.fromTo(plane, { backgroundPositionY: from * L.f + "px" }, { backgroundPositionY: v * L.f + "px", duration: d, ease: ease, immediateRender: false }, at);
+        });
+        var zf = function (s) { return 1 + (s - 1) * (0.5 + L.f * 0.5); };
+        track(S, function (v, d, ease, at, from) {
+          if (!d) tl.set(wrap, { scale: zf(v) }, at);
+          else tl.fromTo(wrap, { scale: zf(from) }, { scale: zf(v), duration: d, ease: ease, immediateRender: false }, at);
+        });
+        track(B, function (v, d, ease, at, from) {
+          var k = L.f;
+          if (!d) tl.set(wrap, { filter: "blur(" + v * k + "px)" }, at);
+          else tl.fromTo(wrap, { filter: "blur(" + from * k + "px)" }, { filter: "blur(" + v * k + "px)", duration: d, ease: ease, immediateRender: false }, at);
+        });
+        // dust rises slowly the whole film (the site's hero dust)
+        if (L.drift) tl.fromTo(wrap, { y: 0 }, { y: L.drift, duration: E, ease: "none" }, 0);
+      });
+
+      // ---- red haze: where the light sits in each scene ----
+      var A = "#wd-haze-a", H = "#wd-haze-b";
+      tl.set(A, { x: 960, y: 560, scale: 0.8, opacity: 0.12 }, 0);
+      tl.set(H, { x: 260, y: 980, scale: 1, opacity: 0 }, 0);
+      tl.to(A, { opacity: 0.4, scale: 0.9, duration: 0.95, ease: "sine.inOut" }, 0.05);
+      tl.set(A, { opacity: 0.95, scale: 1.05 }, 1.0); // ignition
+      tl.to(A, { opacity: 0.55, scale: 1.0, duration: 1.2, ease: "expo.out" }, 1.0);
+      tl.to(A, { scale: 1.9, opacity: 0.25, duration: 0.5, ease: "power3.in" }, 2.5);
+      // presentation
+      tl.set(A, { x: 1500, y: 430, scale: 1.0, opacity: 0.5 }, 3.0);
+      tl.set(H, { opacity: 0.35 }, 3.0);
+      tl.to(A, { x: 1380, duration: 4.5, ease: "sine.inOut" }, 3.0);
+      tl.to(A, { y: 380, duration: 0.45, ease: "power3.inOut" }, 4.95);
+      // portfolio: lower light so the footage carries the frame
+      tl.to(A, { x: 960, y: 470, opacity: 0.34, scale: 1.1, duration: 0.6, ease: "power2.inOut" }, 7.7);
+      tl.to(H, { x: 1700, y: 120, opacity: 0.22, duration: 0.6, ease: "power2.inOut" }, 7.7);
+      tl.to(A, { x: 900, y: 520, duration: 4.4, ease: "sine.inOut" }, 8.3);
+      tl.to(A, { x: 1250, y: 520, opacity: 0.3, duration: 0.6, ease: "power2.inOut" }, 12.8);
+      tl.to(A, { x: 760, y: 560, opacity: 0.4, duration: 0.6, ease: "power2.inOut" }, 14.8);
+      tl.to(A, { x: 1240, y: 500, opacity: 0.45, duration: 0.6, ease: "power2.inOut" }, 18.25);
+      // services
+      tl.set(A, { x: 1380, y: 520, scale: 1.0, opacity: 0.42 }, 20.0);
+      tl.set(H, { x: 200, y: 200, opacity: 0.2 }, 20.0);
+      tl.to(A, { opacity: 0.3, duration: 3.6, ease: "sine.inOut" }, 21.0);
+      tl.to(A, { opacity: 0.6, duration: 0.6, ease: "power2.in" }, 23.4);
+      tl.to(A, { opacity: 0.42, duration: 0.6, ease: "expo.out" }, 24.0);
+      // contact
+      tl.set(A, { x: 560, y: 600, scale: 1.05, opacity: 0.6 }, 25.0);
+      tl.set(H, { x: 1560, y: 260, opacity: 0.25 }, 25.0);
+      tl.to(A, { opacity: 0.48, scale: 1.0, duration: 1.2, ease: "expo.out" }, 25.0);
+      // closing
+      tl.to(A, { x: 960, y: 540, opacity: 0.3, scale: 0.85, duration: 0.6, ease: "power2.inOut" }, 29.7);
+      tl.to(H, { opacity: 0, duration: 0.6, ease: "power2.inOut" }, 29.7);
+      tl.set(A, { opacity: 1, scale: 1.15 }, 31.0); // final impact
+      tl.to(A, { opacity: 0.5, scale: 1.0, duration: 1.6, ease: "expo.out" }, 31.0);
+      tl.to(A, { opacity: 0, scale: 0.5, duration: 0.9, ease: "power2.in" }, 33.0);
+      tl.to(["#wd-grid", "#wd-far", "#wd-mid", "#wd-near"], { opacity: 0, duration: 0.8, ease: "power2.in" }, 33.1);
+
+      window.__timelines["world"] = tl;
+    })();
+  </script>
+</template>

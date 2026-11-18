@@ -1,0 +1,212 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Archivo";
+      src: url("assets/fonts/archivo-variable.woff2") format("woff2");
+      font-weight: 100 900;
+      font-stretch: 62% 125%;
+      font-display: block;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      color: #f4f3ef;
+      font-family: "Archivo", sans-serif;
+    }
+    #root .mono {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #8b8a86;
+      white-space: pre;
+    }
+    /* viewfinder HUD from the original intro */
+    #i-hud {
+      position: absolute;
+      inset: 0;
+      transform-origin: 960px 540px;
+    }
+    #root .i-line {
+      position: absolute;
+      left: 0;
+      width: 1920px;
+      height: 1px;
+      background: rgba(244, 243, 239, 0.09);
+    }
+    #root .i-corner {
+      position: absolute;
+      width: 56px;
+      height: 56px;
+      border: 0 solid rgba(244, 243, 239, 0.55);
+    }
+    #i-c-tl { left: 210px; top: 150px; border-top-width: 2px; border-left-width: 2px; }
+    #i-c-tr { left: 1654px; top: 150px; border-top-width: 2px; border-right-width: 2px; }
+    #i-c-bl { left: 210px; top: 874px; border-bottom-width: 2px; border-left-width: 2px; }
+    #i-c-br { left: 1654px; top: 874px; border-bottom-width: 2px; border-right-width: 2px; }
+    #i-top { position: absolute; left: 210px; top: 100px; }
+    #i-rec { position: absolute; left: 210px; top: 958px; display: flex; align-items: center; gap: 14px; }
+    #i-rec-dot { width: 11px; height: 11px; border-radius: 50%; background: #ff2b2b; box-shadow: 0 0 12px rgba(255, 43, 43, 0.8); }
+    #i-spec { position: absolute; right: 210px; top: 958px; }
+
+    /* the mark */
+    #i-cam {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform-origin: 960px 470px;
+    }
+    #i-logo {
+      display: flex;
+      font-weight: 900;
+      font-stretch: 125%;
+      font-size: 262px;
+      line-height: 0.86;
+      letter-spacing: -0.005em;
+      filter: blur(0px) drop-shadow(0 0 0px rgba(255, 43, 43, 0));
+    }
+    #root .i-half {
+      display: flex;
+    }
+    #i-left { transform-origin: 100% 50%; }
+    #i-right { transform-origin: 0% 50%; }
+    #root .i-l {
+      display: inline-block;
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(244, 243, 239, 0.7);
+      background-image: none;
+      background-size: 420% 100%;
+      background-position: 100% 0;
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    #i-under {
+      width: 560px;
+      height: 6px;
+      margin-top: 46px;
+      border-radius: 3px;
+      background: #ff2b2b;
+      box-shadow: 0 0 26px rgba(255, 43, 43, 0.75);
+    }
+    #i-tag {
+      margin-top: 44px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 30px;
+      font-weight: 500;
+      letter-spacing: 0.6em;
+      margin-right: -0.6em;
+      color: #c9c8c3;
+      white-space: pre;
+      height: 40px;
+    }
+  </style>
+  <div id="root" data-composition-id="intro" data-width="1920" data-height="1080">
+    <div id="i-hud">
+      <div id="i-line-t" class="i-line" style="top: 150px"></div>
+      <div id="i-line-b" class="i-line" style="top: 930px"></div>
+      <div id="i-c-tl" class="i-corner"></div>
+      <div id="i-c-tr" class="i-corner"></div>
+      <div id="i-c-bl" class="i-corner"></div>
+      <div id="i-c-br" class="i-corner"></div>
+      <div id="i-top" class="mono" data-layout-ignore></div>
+      <div id="i-rec" class="mono" data-layout-ignore><i id="i-rec-dot"></i><span id="i-tc">REC 00:00:00:00</span></div>
+      <div id="i-spec" class="mono" data-layout-ignore>1920 × 1080 · 30 FPS</div>
+    </div>
+    <div id="i-cam">
+      <div id="i-logo" aria-label="NEXORA">
+        <div id="i-left" class="i-half"><span class="i-l">N</span><span class="i-l">E</span><span class="i-l">X</span></div>
+        <div id="i-right" class="i-half"><span class="i-l">O</span><span class="i-l">R</span><span class="i-l">A</span></div>
+      </div>
+      <div id="i-under"></div>
+      <div id="i-tag"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var tl = gsap.timeline({ paused: true });
+      var FPS = 30;
+      var seed = 0x51ce;
+      function r() {
+        seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+        return seed / 4294967296;
+      }
+      function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+      // ---- HUD draws in (already on screen at frame 0) ----
+      tl.fromTo(["#i-line-t", "#i-line-b"], { scaleX: 0.15, opacity: 0.4 }, { scaleX: 1, opacity: 1, duration: 0.8, ease: "expo.out" }, 0);
+      tl.fromTo("#i-c-tl", { x: -46, y: -34, opacity: 0.35 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 0);
+      tl.fromTo("#i-c-tr", { x: 46, y: -34, opacity: 0.35 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 0.03);
+      tl.fromTo("#i-c-bl", { x: -46, y: 34, opacity: 0.35 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 0.06);
+      tl.fromTo("#i-c-br", { x: 46, y: 34, opacity: 0.35 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 0.09);
+      tl.fromTo(["#i-rec", "#i-spec"], { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0.25);
+
+      // top label types in, one character per frame
+      var top = "SANTIAGO ESPOSITO — PORTFOLIO 2026 · ARGENTINA";
+      var topEl = document.getElementById("i-top");
+      for (var c = 0; c <= top.length; c += 2) tl.set(topEl, { textContent: top.slice(0, c) }, 0.1 + (c / 2) / FPS);
+      tl.set(topEl, { textContent: top }, 0.1 + Math.ceil(top.length / 2) / FPS);
+
+      // REC timecode runs with the film
+      var tc = document.getElementById("i-tc");
+      for (var f = 0; f < 3 * FPS; f++) tl.set(tc, { textContent: "REC 00:00:" + pad(Math.floor(f / FPS)) + ":" + pad(f % FPS) }, f / FPS);
+
+      // ---- NEXORA: outlined letters decode left to right ----
+      var letters = Array.prototype.slice.call(document.querySelectorAll("#i-logo .i-l"));
+      var word = "NEXORA";
+      letters.forEach(function (el, i) {
+        var t0 = 0.12 + i * 0.075;
+        tl.fromTo(el, { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.32, ease: "expo.out" }, t0);
+        var flips = 3 + (i % 2);
+        for (var k = 0; k < flips; k++) tl.set(el, { textContent: word[Math.floor(r() * 6)] }, t0 + k / FPS);
+        tl.set(el, { textContent: word[i] }, t0 + flips / FPS);
+      });
+      // camera settles while the word forms
+      tl.fromTo("#i-cam", { scale: 1.1 }, { scale: 1, duration: 1.0, ease: "power3.out" }, 0);
+
+      // ---- 1.0 s: the hit — the mark ignites ----
+      tl.set(letters, { color: "transparent", webkitTextStrokeColor: "rgba(244,243,239,0)" }, 1.0);
+      tl.set(letters, { backgroundImage: "linear-gradient(100deg, #ff2b2b 0%, #ff2b2b 42%, #ffe2df 50%, #ff2b2b 58%, #ff2b2b 100%)" }, 1.0);
+      tl.set("#i-logo", { filter: "blur(0px) drop-shadow(0 0 70px rgba(255,43,43,0.95))" }, 1.0);
+      tl.to("#i-logo", { filter: "blur(0px) drop-shadow(0 0 30px rgba(255,43,43,0.5))", duration: 0.9, ease: "expo.out" }, 1.0);
+      // one specular sweep through the glyphs
+      tl.fromTo(letters, { backgroundPosition: "100% 0" }, { backgroundPosition: "0% 0", duration: 0.55, ease: "power2.inOut", stagger: 0.045 }, 1.02);
+      tl.fromTo("#i-under", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 1.0);
+
+      // tagline decodes (mono: every glyph the same width, so nothing jumps)
+      var tag = "CREATIVITY IN MOTION";
+      var pool = "ABCDEFGHIKLMNOPRSTVXYZ0123456789#/<>_";
+      var tagEl = document.getElementById("i-tag");
+      var T0 = 1.15, N = 21;
+      for (var fr = 0; fr <= N; fr++) {
+        var lock = Math.floor((fr / N) * tag.length);
+        var s = "";
+        for (var j = 0; j < tag.length; j++) {
+          if (tag[j] === " ") s += " ";
+          else if (j < lock) s += tag[j];
+          else if (j < lock + 6) s += pool[Math.floor(r() * pool.length)];
+          else s += " ";
+        }
+        tl.set(tagEl, { textContent: s }, T0 + fr / FPS);
+      }
+      tl.set(tagEl, { textContent: tag }, T0 + (N + 1) / FPS);
+
+      // ---- 2.5–3.0 s: the camera flies through the mark (whoosh into the drop) ----
+      tl.to("#i-left", { x: -1150, scale: 3.4, duration: 0.48, ease: "power3.in" }, 2.5);
+      tl.to("#i-right", { x: 1150, scale: 3.4, duration: 0.48, ease: "power3.in" }, 2.5);
+      tl.to("#i-logo", { filter: "blur(16px) drop-shadow(0 0 30px rgba(255,43,43,0.5))", duration: 0.48, ease: "power3.in" }, 2.5);
+      tl.to("#i-under", { scaleX: 5, opacity: 0, duration: 0.42, ease: "power3.in" }, 2.52);
+      tl.to("#i-tag", { y: 70, opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power3.in" }, 2.5);
+      tl.to("#i-hud", { scale: 1.4, opacity: 0, duration: 0.45, ease: "power3.in" }, 2.53);
+
+      window.__timelines["intro"] = tl;
+    })();
+  </script>
+</template>

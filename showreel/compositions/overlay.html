@@ -1,0 +1,46 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    #ov-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 75% 70% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.38) 100%);
+    }
+    #ov-grain {
+      position: absolute;
+      left: -256px;
+      top: -256px;
+      width: 2432px;
+      height: 1592px;
+      opacity: 0.075;
+      mix-blend-mode: screen;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+  </style>
+  <div id="root" data-composition-id="overlay" data-width="1920" data-height="1080">
+    <div id="ov-vignette" data-layout-ignore></div>
+    <div id="ov-grain" data-layout-ignore></div>
+  </div>
+  <script>
+    (function () {
+      var tl = gsap.timeline({ paused: true });
+      // grain moves to a new seeded offset every 2 frames: alive, never a visible pattern
+      var s = 0x2f6dedd;
+      function r() {
+        s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+        return s / 4294967296;
+      }
+      var grain = document.getElementById("ov-grain");
+      for (var f = 0; f < 34 * 30; f += 2) {
+        tl.set(grain, { x: Math.round(r() * 255), y: Math.round(r() * 255) }, f / 30);
+      }
+      window.__timelines["overlay"] = tl;
+    })();
+  </script>
+</template>

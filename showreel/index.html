@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>NEXORA — Showreel</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #050505;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #050505;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="34"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- the world behind every scene: ground, red haze, grid, dust (one continuous camera) -->
+      <div
+        id="world"
+        data-composition-id="world"
+        data-composition-src="compositions/world.html"
+        data-start="0"
+        data-duration="34"
+        data-track-index="0"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 1"
+      ></div>
+
+      <!-- scenes, back to back -->
+      <div
+        id="intro"
+        data-composition-id="intro"
+        data-composition-src="compositions/intro.html"
+        data-start="0"
+        data-duration="3"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 2"
+      ></div>
+      <div
+        id="presentation"
+        data-composition-id="presentation"
+        data-composition-src="compositions/presentation.html"
+        data-start="3"
+        data-duration="5"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 2"
+      ></div>
+      <div
+        id="portfolio"
+        data-composition-id="portfolio"
+        data-composition-src="compositions/portfolio.html"
+        data-start="8"
+        data-duration="12"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 2"
+      ></div>
+      <div
+        id="services"
+        data-composition-id="services"
+        data-composition-src="compositions/services.html"
+        data-start="20"
+        data-duration="5"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 2"
+      ></div>
+      <div
+        id="contact"
+        data-composition-id="contact"
+        data-composition-src="compositions/contact.html"
+        data-start="25"
+        data-duration="5"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        data-variable-values='{"instagram":"@santiiagoesposito","whatsapp":"+54 9 3764 262942","email":"santiespo04@gmail.com"}'
+        style="z-index: 2"
+      ></div>
+      <div
+        id="closing"
+        data-composition-id="closing"
+        data-composition-src="compositions/closing.html"
+        data-start="30"
+        data-duration="4"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 2"
+      ></div>
+
+      <!-- film grain + vignette over everything (dithers the dark red gradients) -->
+      <div
+        id="overlay"
+        data-composition-id="overlay"
+        data-composition-src="compositions/overlay.html"
+        data-start="0"
+        data-duration="34"
+        data-track-index="2"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 10"
+      ></div>
+
+      <!-- score: the original NEXORA track, offset 1 s so the drop lands on 3.0 s -->
+      <audio
+        id="score"
+        class="clip"
+        src="assets/audio/nexora-score.m4a"
+        data-start="0"
+        data-duration="34"
+        data-track-index="3"
+        data-volume="1"
+      ></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

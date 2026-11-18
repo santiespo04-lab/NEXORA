@@ -1,0 +1,169 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Archivo";
+      src: url("assets/fonts/archivo-variable.woff2") format("woff2");
+      font-weight: 100 900;
+      font-stretch: 62% 125%;
+      font-display: block;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      color: #f4f3ef;
+      font-family: "Archivo", sans-serif;
+    }
+    #root .mono {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #8b8a86;
+      white-space: pre;
+    }
+    #root .x-corner { position: absolute; width: 48px; height: 48px; border: 0 solid rgba(244, 243, 239, 0.55); }
+    #x-c-tl { left: 150px; top: 262px; border-top-width: 2px; border-left-width: 2px; }
+    #x-c-tr { left: 1722px; top: 262px; border-top-width: 2px; border-right-width: 2px; }
+    #x-c-bl { left: 150px; top: 770px; border-bottom-width: 2px; border-left-width: 2px; }
+    #x-c-br { left: 1722px; top: 770px; border-bottom-width: 2px; border-right-width: 2px; }
+
+    #x-mask {
+      position: absolute;
+      left: 0;
+      top: 344px;
+      width: 1920px;
+      height: 236px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+    #x-logo {
+      display: flex;
+      font-weight: 900;
+      font-stretch: 125%;
+      font-size: 262px;
+      line-height: 0.86;
+      letter-spacing: -0.005em;
+      filter: drop-shadow(0 0 22px rgba(255, 43, 43, 0.4));
+    }
+    #root .x-l {
+      display: inline-block;
+      color: transparent;
+      background-image: linear-gradient(100deg, #ff2b2b 0%, #ff2b2b 42%, #ffe2df 50%, #ff2b2b 58%, #ff2b2b 100%);
+      background-size: 420% 100%;
+      background-position: 100% 0;
+      -webkit-background-clip: text;
+      background-clip: text;
+      transform-origin: 50% 100%;
+    }
+    #x-line {
+      position: absolute;
+      left: 640px;
+      top: 600px;
+      width: 640px;
+      height: 6px;
+      border-radius: 3px;
+      background: #ff2b2b;
+      box-shadow: 0 0 26px rgba(255, 43, 43, 0.8);
+    }
+    #x-dot {
+      position: absolute;
+      left: 950px;
+      top: 593px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ff2b2b;
+      box-shadow: 0 0 30px rgba(255, 43, 43, 0.95), 0 0 80px rgba(255, 43, 43, 0.5);
+    }
+    #x-tag {
+      position: absolute;
+      left: 0;
+      top: 652px;
+      width: 1920px;
+      text-align: center;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 30px;
+      font-weight: 500;
+      letter-spacing: 0.5em;
+      text-indent: 0.5em;
+      color: #c9c8c3;
+      white-space: pre;
+      height: 40px;
+    }
+    #x-credit { position: absolute; left: 0; top: 722px; width: 1920px; text-align: center; text-indent: 0.32em; }
+  </style>
+  <div id="root" data-composition-id="closing" data-width="1920" data-height="1080">
+    <i id="x-c-tl" class="x-corner"></i>
+    <i id="x-c-tr" class="x-corner"></i>
+    <i id="x-c-bl" class="x-corner"></i>
+    <i id="x-c-br" class="x-corner"></i>
+    <div id="x-mask">
+      <div id="x-logo" aria-label="NEXORA">
+        <span class="x-l">N</span><span class="x-l">E</span><span class="x-l">X</span><span class="x-l">O</span><span class="x-l">R</span><span class="x-l">A</span>
+      </div>
+    </div>
+    <div id="x-line"></div>
+    <div id="x-dot"></div>
+    <div id="x-tag"></div>
+    <div id="x-credit" class="mono">Santiago Esposito · Argentina · 2026</div>
+  </div>
+  <script>
+    (function () {
+      var tl = gsap.timeline({ paused: true });
+      var FPS = 30;
+      var letters = document.querySelectorAll("#x-logo .x-l");
+
+      // the line draws from the centre, the mark rises out of it
+      tl.fromTo("#x-line", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 0.0);
+      tl.fromTo(letters, { yPercent: 105 }, { yPercent: 0, duration: 0.62, ease: "expo.out", stagger: { each: 0.05, from: "center" } }, 0.2);
+      tl.set("#x-dot", { scale: 0, opacity: 0 }, 0);
+
+      // 1.0: the music cuts to its tail — final impact
+      tl.set("#x-logo", { filter: "drop-shadow(0 0 80px rgba(255,43,43,1))" }, 1.0);
+      tl.to("#x-logo", { filter: "drop-shadow(0 0 30px rgba(255,43,43,0.55))", duration: 1.1, ease: "expo.out" }, 1.0);
+      tl.fromTo(letters, { backgroundPosition: "100% 0" }, { backgroundPosition: "0% 0", duration: 0.6, ease: "power2.inOut", stagger: 0.045 }, 1.02);
+      tl.fromTo("#x-c-tl", { x: -40, y: -30, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 1.0);
+      tl.fromTo("#x-c-tr", { x: 40, y: -30, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 1.0);
+      tl.fromTo("#x-c-bl", { x: -40, y: 30, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 1.0);
+      tl.fromTo("#x-c-br", { x: 40, y: 30, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 1.0);
+
+      // tagline decodes
+      var seed = 0x7a61;
+      function r() {
+        seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+        return seed / 4294967296;
+      }
+      var tag = "IDEAS INTO VISUAL EXPERIENCES.";
+      var pool = "ABCDEFGHIKLMNOPRSTVXYZ0123456789#/<>_";
+      var tagEl = document.getElementById("x-tag");
+      var T0 = 1.15, N = 24;
+      for (var fr = 0; fr <= N; fr++) {
+        var lock = Math.floor((fr / N) * tag.length), s = "";
+        for (var j = 0; j < tag.length; j++) {
+          if (tag[j] === " ") s += " ";
+          else if (j < lock) s += tag[j];
+          else if (j < lock + 6) s += pool[Math.floor(r() * pool.length)];
+          else s += " ";
+        }
+        tl.set(tagEl, { textContent: s }, T0 + fr / FPS);
+      }
+      tl.set(tagEl, { textContent: tag }, T0 + (N + 1) / FPS);
+      tl.fromTo("#x-credit", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 1.7);
+
+      // 3.0: exit — the words leave, the mark folds into the line, the line becomes the red dot
+      tl.to(["#x-tag", "#x-credit"], { opacity: 0, filter: "blur(8px)", duration: 0.22, ease: "power2.in" }, 3.0);
+      tl.to(["#x-c-tl", "#x-c-tr", "#x-c-bl", "#x-c-br"], { opacity: 0, scale: 0.8, duration: 0.3, ease: "power3.in" }, 3.04);
+      tl.to(letters, { scaleY: 0, duration: 0.32, ease: "power3.in", stagger: { each: 0.02, from: "edges" } }, 3.1);
+      tl.to("#x-line", { scaleX: 0.03, duration: 0.38, ease: "power3.inOut" }, 3.36);
+      tl.to("#x-dot", { scale: 1, opacity: 1, duration: 0.12, ease: "power2.out" }, 3.66);
+      tl.set("#x-line", { opacity: 0 }, 3.74);
+      tl.to("#x-dot", { scale: 0.5, opacity: 0, duration: 0.2, ease: "power2.in" }, 3.78);
+
+      window.__timelines["closing"] = tl;
+    })();
+  </script>
+</template>
