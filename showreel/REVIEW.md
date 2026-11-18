@@ -8,6 +8,9 @@
   timeline); contacto centrado con tarjetas a lo ancho.
 - Franja segura de Instagram Reels respetada en todo texto de lectura (y 269–1248). Las alertas de
   TikTok/Shorts por los bordes laterales quedan: sus franjas son más angostas que el logo.
+- Render 9:16: renders/nexora-showreel-9x16.mp4 — 1080x1920, 30 fps, 34.0 s, H.264 CRF 20 + AAC,
+  37.7 MB (SSIM 0.972 contra el master de 137 MB). -14 LUFS, pico -4.9 dBFS. Sincronía verificada
+  en el archivo: drop 3.000 s, retorno 25.000 s. Revisado a 2 fps: 6 escenas, textos y contactos ok.
 
 ## Decisiones creativas
 - Base: el video vertical original (34 s). Se conservaron su estructura y sus piezas: marco HUD + REC,
