@@ -14,15 +14,15 @@
       pointer-events: none;
     }
     #wd-haze-a {
-      width: 1800px;
-      height: 1800px;
-      margin: -900px 0 0 -900px;
+      width: 1600px;
+      height: 1600px;
+      margin: -800px 0 0 -800px;
       background: radial-gradient(closest-side, rgba(255, 43, 43, 0.5), rgba(200, 16, 30, 0.22) 45%, rgba(200, 16, 30, 0) 100%);
     }
     #wd-haze-b {
-      width: 1400px;
-      height: 1400px;
-      margin: -700px 0 0 -700px;
+      width: 1300px;
+      height: 1300px;
+      margin: -650px 0 0 -650px;
       background: radial-gradient(closest-side, rgba(200, 16, 30, 0.42), rgba(200, 16, 30, 0) 100%);
     }
     /* each depth layer: a scale wrapper (camera zoom) around a tiled plane (camera pan) */
@@ -30,9 +30,9 @@
       position: absolute;
       left: -400px;
       top: -400px;
-      width: 2720px;
-      height: 1880px;
-      transform-origin: 1360px 940px;
+      width: 1880px;
+      height: 2720px;
+      transform-origin: 940px 1360px;
     }
     #root .wd-plane {
       position: absolute;
@@ -46,7 +46,7 @@
       background-size: 64px 64px;
     }
   </style>
-  <div id="root" data-composition-id="world" data-width="1920" data-height="1080">
+  <div id="root" data-composition-id="world" data-width="1080" data-height="1920">
     <div id="wd-haze-a" class="wd-haze"></div>
     <div id="wd-haze-b" class="wd-haze"></div>
     <div id="wd-grid" class="wd-layer"><div id="wd-grid-plane" class="wd-plane"></div></div>
@@ -105,9 +105,9 @@
       ];
       // [time, value, ease into this key]  (ease "set" = hard cut)
       var X = [
-        [0, 0], [3.5, 0], [7.6, -70, "sine.inOut"], [8.0, -480, "power3.in"], [8.5, -600, "expo.out"],
-        [12.75, -660, "sine.inOut"], [13.35, -1250, "power3.inOut"], [18.2, -1300, "sine.inOut"],
-        [18.8, -1750, "power3.inOut"], [24.6, -1830, "sine.inOut"], [29.9, -1880, "sine.inOut"], [34, -1890, "sine.inOut"],
+        [0, 0], [3.5, 0], [7.6, -40, "sine.inOut"], [8.0, -300, "power3.in"], [8.5, -370, "expo.out"],
+        [12.75, -400, "sine.inOut"], [13.35, -760, "power3.inOut"], [18.2, -790, "sine.inOut"],
+        [18.8, -1060, "power3.inOut"], [24.6, -1100, "sine.inOut"], [29.9, -1130, "sine.inOut"], [34, -1140, "sine.inOut"],
       ];
       var Y = [
         [0, 0], [4.95, 0], [5.4, -320, "power3.inOut"], [14.8, -360, "sine.inOut"], [15.35, -900, "power3.inOut"],
@@ -165,36 +165,36 @@
 
       // ---- red haze: where the light sits in each scene ----
       var A = "#wd-haze-a", H = "#wd-haze-b";
-      tl.set(A, { x: 960, y: 560, scale: 0.8, opacity: 0.12 }, 0);
-      tl.set(H, { x: 260, y: 980, scale: 1, opacity: 0 }, 0);
+      tl.set(A, { x: 540, y: 800, scale: 0.8, opacity: 0.12 }, 0);
+      tl.set(H, { x: 540, y: 1820, scale: 1.1, opacity: 0.16 }, 0);
       tl.to(A, { opacity: 0.4, scale: 0.9, duration: 0.95, ease: "sine.inOut" }, 0.05);
       tl.set(A, { opacity: 0.95, scale: 1.05 }, 1.0); // ignition
       tl.to(A, { opacity: 0.55, scale: 1.0, duration: 1.2, ease: "expo.out" }, 1.0);
       tl.to(A, { scale: 1.9, opacity: 0.25, duration: 0.5, ease: "power3.in" }, 2.5);
       // presentation
-      tl.set(A, { x: 1500, y: 430, scale: 1.0, opacity: 0.5 }, 3.0);
-      tl.set(H, { opacity: 0.35 }, 3.0);
-      tl.to(A, { x: 1380, duration: 4.5, ease: "sine.inOut" }, 3.0);
-      tl.to(A, { y: 380, duration: 0.45, ease: "power3.inOut" }, 4.95);
+      tl.set(A, { x: 860, y: 640, scale: 1.0, opacity: 0.5 }, 3.0);
+      tl.set(H, { x: 260, y: 1700, opacity: 0.32 }, 3.0);
+      tl.to(A, { x: 780, duration: 4.5, ease: "sine.inOut" }, 3.0);
+      tl.to(A, { y: 560, duration: 0.45, ease: "power3.inOut" }, 4.95);
       // portfolio: lower light so the footage carries the frame
-      tl.to(A, { x: 960, y: 470, opacity: 0.34, scale: 1.1, duration: 0.6, ease: "power2.inOut" }, 7.7);
-      tl.to(H, { x: 1700, y: 120, opacity: 0.22, duration: 0.6, ease: "power2.inOut" }, 7.7);
-      tl.to(A, { x: 900, y: 520, duration: 4.4, ease: "sine.inOut" }, 8.3);
-      tl.to(A, { x: 1250, y: 520, opacity: 0.3, duration: 0.6, ease: "power2.inOut" }, 12.8);
-      tl.to(A, { x: 760, y: 560, opacity: 0.4, duration: 0.6, ease: "power2.inOut" }, 14.8);
-      tl.to(A, { x: 1240, y: 500, opacity: 0.45, duration: 0.6, ease: "power2.inOut" }, 18.25);
+      tl.to(A, { x: 540, y: 780, opacity: 0.36, scale: 1.1, duration: 0.6, ease: "power2.inOut" }, 7.7);
+      tl.to(H, { x: 820, y: 1680, opacity: 0.24, duration: 0.6, ease: "power2.inOut" }, 7.7);
+      tl.to(A, { x: 500, y: 820, duration: 4.4, ease: "sine.inOut" }, 8.3);
+      tl.to(A, { x: 720, y: 700, opacity: 0.32, duration: 0.6, ease: "power2.inOut" }, 12.8);
+      tl.to(A, { x: 420, y: 760, opacity: 0.42, duration: 0.6, ease: "power2.inOut" }, 14.8);
+      tl.to(A, { x: 640, y: 700, opacity: 0.46, duration: 0.6, ease: "power2.inOut" }, 18.25);
       // services
-      tl.set(A, { x: 1380, y: 520, scale: 1.0, opacity: 0.42 }, 20.0);
-      tl.set(H, { x: 200, y: 200, opacity: 0.2 }, 20.0);
+      tl.set(A, { x: 760, y: 760, scale: 1.0, opacity: 0.42 }, 20.0);
+      tl.set(H, { x: 280, y: 1720, opacity: 0.22 }, 20.0);
       tl.to(A, { opacity: 0.3, duration: 3.6, ease: "sine.inOut" }, 21.0);
       tl.to(A, { opacity: 0.6, duration: 0.6, ease: "power2.in" }, 23.4);
       tl.to(A, { opacity: 0.42, duration: 0.6, ease: "expo.out" }, 24.0);
       // contact
-      tl.set(A, { x: 560, y: 600, scale: 1.05, opacity: 0.6 }, 25.0);
-      tl.set(H, { x: 1560, y: 260, opacity: 0.25 }, 25.0);
+      tl.set(A, { x: 300, y: 900, scale: 1.05, opacity: 0.6 }, 25.0);
+      tl.set(H, { x: 780, y: 1680, opacity: 0.26 }, 25.0);
       tl.to(A, { opacity: 0.48, scale: 1.0, duration: 1.2, ease: "expo.out" }, 25.0);
       // closing
-      tl.to(A, { x: 960, y: 540, opacity: 0.3, scale: 0.85, duration: 0.6, ease: "power2.inOut" }, 29.7);
+      tl.to(A, { x: 540, y: 760, opacity: 0.3, scale: 0.85, duration: 0.6, ease: "power2.inOut" }, 29.7);
       tl.to(H, { opacity: 0, duration: 0.6, ease: "power2.inOut" }, 29.7);
       tl.set(A, { opacity: 1, scale: 1.15 }, 31.0); // final impact
       tl.to(A, { opacity: 0.5, scale: 1.0, duration: 1.6, ease: "expo.out" }, 31.0);

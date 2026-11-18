@@ -24,17 +24,17 @@
       white-space: pre;
     }
     #root .x-corner { position: absolute; width: 48px; height: 48px; border: 0 solid rgba(244, 243, 239, 0.55); }
-    #x-c-tl { left: 150px; top: 262px; border-top-width: 2px; border-left-width: 2px; }
-    #x-c-tr { left: 1722px; top: 262px; border-top-width: 2px; border-right-width: 2px; }
-    #x-c-bl { left: 150px; top: 770px; border-bottom-width: 2px; border-left-width: 2px; }
-    #x-c-br { left: 1722px; top: 770px; border-bottom-width: 2px; border-right-width: 2px; }
+    #x-c-tl { left: 72px; top: 520px; border-top-width: 2px; border-left-width: 2px; }
+    #x-c-tr { left: 960px; top: 520px; border-top-width: 2px; border-right-width: 2px; }
+    #x-c-bl { left: 72px; top: 1040px; border-bottom-width: 2px; border-left-width: 2px; }
+    #x-c-br { left: 960px; top: 1040px; border-bottom-width: 2px; border-right-width: 2px; }
 
     #x-mask {
       position: absolute;
       left: 0;
-      top: 344px;
-      width: 1920px;
-      height: 236px;
+      top: 640px;
+      width: 1080px;
+      height: 146px;
       overflow: hidden;
       display: flex;
       justify-content: center;
@@ -44,10 +44,10 @@
       display: flex;
       font-weight: 900;
       font-stretch: 125%;
-      font-size: 262px;
+      font-size: 160px;
       line-height: 0.86;
       letter-spacing: -0.005em;
-      filter: drop-shadow(0 0 22px rgba(255, 43, 43, 0.4));
+      filter: drop-shadow(0 0 18px rgba(255, 43, 43, 0.4));
     }
     #root .x-l {
       display: inline-block;
@@ -61,20 +61,20 @@
     }
     #x-line {
       position: absolute;
-      left: 640px;
-      top: 600px;
-      width: 640px;
-      height: 6px;
+      left: 330px;
+      top: 798px;
+      width: 420px;
+      height: 5px;
       border-radius: 3px;
       background: #ff2b2b;
       box-shadow: 0 0 26px rgba(255, 43, 43, 0.8);
     }
     #x-dot {
       position: absolute;
-      left: 950px;
-      top: 593px;
-      width: 20px;
-      height: 20px;
+      left: 531px;
+      top: 791px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
       background: #ff2b2b;
       box-shadow: 0 0 30px rgba(255, 43, 43, 0.95), 0 0 80px rgba(255, 43, 43, 0.5);
@@ -82,21 +82,21 @@
     #x-tag {
       position: absolute;
       left: 0;
-      top: 652px;
-      width: 1920px;
+      top: 846px;
+      width: 1080px;
       text-align: center;
       font-family: "JetBrains Mono", monospace;
-      font-size: 30px;
+      font-size: 26px;
       font-weight: 500;
-      letter-spacing: 0.5em;
-      text-indent: 0.5em;
+      letter-spacing: 0.4em;
+      text-indent: 0.4em;
       color: #c9c8c3;
       white-space: pre;
       height: 40px;
     }
-    #x-credit { position: absolute; left: 0; top: 722px; width: 1920px; text-align: center; text-indent: 0.32em; }
+    #x-credit { position: absolute; left: 0; top: 912px; width: 1080px; text-align: center; text-indent: 0.32em; }
   </style>
-  <div id="root" data-composition-id="closing" data-width="1920" data-height="1080">
+  <div id="root" data-composition-id="closing" data-width="1080" data-height="1920">
     <i id="x-c-tl" class="x-corner"></i>
     <i id="x-c-tr" class="x-corner"></i>
     <i id="x-c-bl" class="x-corner"></i>
@@ -123,8 +123,8 @@
       tl.set("#x-dot", { scale: 0, opacity: 0 }, 0);
 
       // 1.0: the music cuts to its tail — final impact
-      tl.set("#x-logo", { filter: "drop-shadow(0 0 80px rgba(255,43,43,1))" }, 1.0);
-      tl.to("#x-logo", { filter: "drop-shadow(0 0 30px rgba(255,43,43,0.55))", duration: 1.1, ease: "expo.out" }, 1.0);
+      tl.set("#x-logo", { filter: "drop-shadow(0 0 60px rgba(255,43,43,1))" }, 1.0);
+      tl.to("#x-logo", { filter: "drop-shadow(0 0 24px rgba(255,43,43,0.55))", duration: 1.1, ease: "expo.out" }, 1.0);
       tl.fromTo(letters, { backgroundPosition: "100% 0" }, { backgroundPosition: "0% 0", duration: 0.6, ease: "power2.inOut", stagger: 0.045 }, 1.02);
       tl.fromTo("#x-c-tl", { x: -40, y: -30, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 1.0);
       tl.fromTo("#x-c-tr", { x: 40, y: -30, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 1.0);
@@ -158,7 +158,7 @@
       tl.to(["#x-tag", "#x-credit"], { opacity: 0, filter: "blur(8px)", duration: 0.22, ease: "power2.in" }, 3.0);
       tl.to(["#x-c-tl", "#x-c-tr", "#x-c-bl", "#x-c-br"], { opacity: 0, scale: 0.8, duration: 0.3, ease: "power3.in" }, 3.04);
       tl.to(letters, { scaleY: 0, duration: 0.32, ease: "power3.in", stagger: { each: 0.02, from: "edges" } }, 3.1);
-      tl.to("#x-line", { scaleX: 0.03, duration: 0.38, ease: "power3.inOut" }, 3.36);
+      tl.to("#x-line", { scaleX: 0.043, duration: 0.38, ease: "power3.inOut" }, 3.36);
       tl.to("#x-dot", { scale: 1, opacity: 1, duration: 0.12, ease: "power2.out" }, 3.66);
       tl.set("#x-line", { opacity: 0 }, 3.74);
       tl.to("#x-dot", { scale: 0.5, opacity: 0, duration: 0.2, ease: "power2.in" }, 3.78);

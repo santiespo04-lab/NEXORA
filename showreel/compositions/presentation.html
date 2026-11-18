@@ -30,21 +30,21 @@
     #p-cam {
       position: absolute;
       inset: 0;
-      transform-origin: 960px 540px;
+      transform-origin: 540px 860px;
     }
     #root .p-layout {
       position: absolute;
       inset: 0;
     }
     /* A — the site's hero lockup */
-    #p-a-label { position: absolute; left: 150px; top: 196px; }
+    #p-a-label { position: absolute; left: 72px; top: 470px; font-size: 24px; }
     #p-head {
       position: absolute;
-      left: 150px;
-      top: 252px;
+      left: 72px;
+      top: 530px;
       font-weight: 900;
       font-stretch: 125%;
-      font-size: 150px;
+      font-size: 110px;
       line-height: 0.92;
       letter-spacing: -0.01em;
       text-transform: uppercase;
@@ -66,31 +66,31 @@
     }
     #p-role {
       position: absolute;
-      left: 150px;
-      top: 838px;
+      left: 72px;
+      top: 990px;
       display: flex;
       align-items: center;
       gap: 22px;
     }
     #p-role-dash { width: 56px; height: 3px; background: #ff2b2b; transform-origin: 0 50%; }
-    #p-role-win { height: 52px; overflow: hidden; }
+    #p-role-win { height: 58px; overflow: hidden; }
     #p-role-list { display: flex; flex-direction: column; }
     #root .p-role-item {
-      height: 52px;
-      line-height: 52px;
-      font-size: 42px;
+      height: 58px;
+      line-height: 58px;
+      font-size: 46px;
       font-weight: 600;
       color: #ff2b2b;
       white-space: nowrap;
     }
 
     /* B — "Cada frame con intención." + the creative approach */
-    #p-b-label { position: absolute; left: 150px; top: 262px; }
+    #p-b-label { position: absolute; left: 72px; top: 380px; font-size: 24px; }
     #p-b-title {
       position: absolute;
-      left: 150px;
-      top: 320px;
-      font-size: 158px;
+      left: 72px;
+      top: 440px;
+      font-size: 124px;
       font-weight: 300;
       line-height: 1;
       letter-spacing: -0.02em;
@@ -99,9 +99,9 @@
     #p-b-title .p-int { font-weight: 800; color: #ff2b2b; }
     #p-pillars {
       position: absolute;
-      left: 1262px;
-      top: 330px;
-      width: 520px;
+      left: 72px;
+      top: 790px;
+      width: 936px;
     }
     #root .p-pillar {
       position: relative;
@@ -124,19 +124,19 @@
       transform-origin: 0 50%;
     }
     #root .p-pillar-text {
-      font-size: 40px;
+      font-size: 50px;
       font-weight: 700;
       line-height: 1.1;
       white-space: nowrap;
     }
   </style>
-  <div id="root" data-composition-id="presentation" data-width="1920" data-height="1080">
+  <div id="root" data-composition-id="presentation" data-width="1080" data-height="1920">
     <div id="p-cam">
       <div id="p-a" class="p-layout">
         <div id="p-a-label" class="mono"><b>01</b> — STUDIO</div>
         <div id="p-head">
-          <span class="p-mask"><span class="p-row">Bienvenido a</span></span>
-          <span class="p-mask"><span class="p-row p-red">Nexora,</span></span>
+          <span class="p-mask"><span class="p-row">Bienvenido</span></span>
+          <span class="p-mask"><span class="p-row">a <span class="p-red">Nexora,</span></span></span>
           <span class="p-mask"><span class="p-row p-out">Tu mundo</span></span>
           <span class="p-mask"><span class="p-row p-out">a editar.</span></span>
         </div>
@@ -175,7 +175,7 @@
       // arrival from the fly-through: the frame lands slightly large and settles (drop at 0.0)
       tl.fromTo("#p-cam", { scale: 1.08, filter: "blur(10px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 0);
       // soft camera truck while the lines are read
-      tl.fromTo("#p-cam", { x: 0 }, { x: -36, duration: 4.1, ease: "sine.inOut" }, 0.5);
+      tl.fromTo("#p-cam", { y: 0 }, { y: -14, duration: 4.1, ease: "sine.inOut" }, 0.5);
 
       // ---- A: the site headline, line by line through masks, on the beat ----
       tl.fromTo("#p-a-label", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.45, ease: "expo.out" }, 0.05);
@@ -183,7 +183,7 @@
       tl.fromTo(rows, { yPercent: 108 }, { yPercent: 0, duration: 0.62, ease: "expo.out", stagger: 0.12 }, 0.0);
       tl.fromTo("#p-role-dash", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "expo.out" }, 0.62);
       // the roles roll like a slot and land on "Editor de video" on the beat (1.5)
-      var H = 52;
+      var H = 58;
       tl.set("#p-role-list", { y: 0 }, 0);
       tl.fromTo("#p-role-win", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 0.7);
       for (var k = 1; k <= 3; k++) {
@@ -192,9 +192,9 @@
       tl.to("#p-role-list", { y: -H * 4, duration: 0.22, ease: "expo.out" }, 1.28);
 
       // ---- scroll: A leaves upward, B rises (the site's own order: hero → about) ----
-      tl.to("#p-a", { y: -760, filter: "blur(10px)", opacity: 0.2, duration: 0.42, ease: "power3.in" }, 1.98);
+      tl.to("#p-a", { y: -1150, filter: "blur(10px)", opacity: 0.2, duration: 0.42, ease: "power3.in" }, 1.98);
       tl.set("#p-a", { opacity: 0 }, 2.4);
-      tl.fromTo("#p-b", { y: 760, filter: "blur(10px)" }, { y: 0, filter: "blur(0px)", duration: 0.62, ease: "expo.out" }, 2.25);
+      tl.fromTo("#p-b", { y: 1620, filter: "blur(10px)" }, { y: 0, filter: "blur(0px)", duration: 0.62, ease: "expo.out" }, 2.25);
       tl.fromTo("#p-b-label", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 2.4);
       // per word: blur 6px → 0, 0.067 s apart, no translate
       tl.fromTo("#p-b-title .p-w", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power2.out", stagger: 0.067 }, 2.36);
@@ -209,7 +209,7 @@
       });
 
       // ---- whip left into the portfolio ----
-      tl.fromTo("#p-cam", { x: -36 }, { x: -640, duration: 0.36, ease: "power3.in", immediateRender: false }, 4.62);
+      tl.fromTo("#p-cam", { x: 0 }, { x: -720, duration: 0.36, ease: "power3.in", immediateRender: false }, 4.62);
       tl.to("#p-b", { filter: "blur(14px)", opacity: 0, duration: 0.36, ease: "power3.in" }, 4.62);
 
       window.__timelines["presentation"] = tl;

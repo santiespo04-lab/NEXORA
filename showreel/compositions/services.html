@@ -24,17 +24,17 @@
       white-space: pre;
     }
     #root .mono b { color: #ff2b2b; font-weight: 600; }
-    #s-stage { position: absolute; inset: 0; transform-origin: 960px 540px; }
-    #s-label { position: absolute; left: 150px; top: 128px; }
-    #s-sub { position: absolute; right: 150px; top: 128px; color: #c9c8c3; }
+    #s-stage { position: absolute; inset: 0; transform-origin: 540px 860px; }
+    #s-label { position: absolute; left: 72px; top: 296px; font-size: 24px; }
+    #s-sub { position: absolute; left: 72px; top: 336px; color: #c9c8c3; }
 
     /* kinetic title: one mask, five words rolling through it */
     #s-title-mask {
       position: absolute;
-      left: 150px;
-      top: 186px;
-      width: 1640px;
-      height: 154px;
+      left: 72px;
+      top: 384px;
+      width: 960px;
+      height: 100px;
       overflow: hidden;
     }
     #root .s-title {
@@ -43,8 +43,8 @@
       top: 0;
       font-weight: 900;
       font-stretch: 125%;
-      font-size: 140px;
-      line-height: 154px;
+      font-size: 82px;
+      line-height: 100px;
       letter-spacing: -0.01em;
       text-transform: uppercase;
       white-space: nowrap;
@@ -52,7 +52,7 @@
     #root .s-title em { font-style: normal; color: #ff2b2b; }
 
     /* left column: tags + the big outline index */
-    #s-tags-box { position: absolute; left: 150px; top: 404px; width: 600px; height: 220px; }
+    #s-tags-box { position: absolute; left: 72px; top: 1026px; width: 600px; height: 150px; }
     #root .s-tags { position: absolute; left: 0; top: 0; }
     #root .s-tag {
       display: block;
@@ -60,21 +60,21 @@
       font-size: 26px;
       font-weight: 500;
       letter-spacing: 0.22em;
-      line-height: 50px;
+      line-height: 48px;
       color: #c9c8c3;
       text-transform: uppercase;
       white-space: nowrap;
     }
     #root .s-tag::before { content: ""; display: inline-block; width: 14px; height: 2px; margin: 0 16px 7px 0; background: #ff2b2b; }
-    #s-num-mask { position: absolute; left: 140px; top: 640px; width: 600px; height: 240px; overflow: hidden; }
+    #s-num-mask { position: absolute; left: 690px; top: 1024px; width: 330px; height: 150px; overflow: hidden; }
     #root .s-num {
       position: absolute;
       left: 0;
       top: 0;
       font-weight: 900;
       font-stretch: 125%;
-      font-size: 240px;
-      line-height: 240px;
+      font-size: 140px;
+      line-height: 150px;
       color: transparent;
       -webkit-text-stroke: 2px rgba(244, 243, 239, 0.3);
     }
@@ -82,8 +82,8 @@
     /* the demo panel (the site's service covers, animated) */
     #s-panel {
       position: absolute;
-      left: 810px;
-      top: 372px;
+      left: 60px;
+      top: 504px;
       width: 960px;
       height: 500px;
       border-radius: 6px;
@@ -144,14 +144,14 @@
     #root .s-frame.r { border: 3px solid #ff2b2b; background: rgba(255, 43, 43, 0.06); }
 
     /* the one timeline */
-    #s-tl { position: absolute; left: 150px; top: 902px; width: 1620px; height: 60px; }
-    #root .s-seg { position: absolute; top: 34px; height: 10px; width: 314px; background: rgba(244, 243, 239, 0.12); }
+    #s-tl { position: absolute; left: 72px; top: 1180px; width: 936px; height: 60px; }
+    #root .s-seg { position: absolute; top: 34px; height: 10px; width: 179px; background: rgba(244, 243, 239, 0.12); }
     #root .s-seg-fill { position: absolute; inset: 0; background: rgba(244, 243, 239, 0.4); transform-origin: 0 50%; transform: scaleX(0); }
-    #root .s-seg-lab { position: absolute; top: 0; font-family: "JetBrains Mono", monospace; font-size: 17px; letter-spacing: 0.24em; color: #8b8a86; white-space: nowrap; }
+    #root .s-seg-lab { position: absolute; top: 0; font-family: "JetBrains Mono", monospace; font-size: 15px; letter-spacing: 0.16em; color: #8b8a86; white-space: nowrap; }
     #s-head { position: absolute; left: 0; top: 14px; width: 3px; height: 46px; background: #ff2b2b; box-shadow: 0 0 12px rgba(255, 43, 43, 0.9); }
     #s-head::before { content: ""; position: absolute; left: -6px; top: -8px; width: 15px; height: 10px; background: #ff2b2b; }
   </style>
-  <div id="root" data-composition-id="services" data-width="1920" data-height="1080">
+  <div id="root" data-composition-id="services" data-width="1080" data-height="1920">
     <div id="s-stage">
       <div id="s-label" class="mono"><b>03</b> — SERVICES</div>
       <div id="s-sub" class="mono">Five disciplines · One timeline</div>
@@ -218,15 +218,15 @@
 
       <div id="s-tl" data-layout-ignore>
         <div class="s-seg" style="left:0"><i class="s-seg-fill"></i></div>
-        <div class="s-seg" style="left:326.5px"><i class="s-seg-fill"></i></div>
-        <div class="s-seg" style="left:653px"><i class="s-seg-fill"></i></div>
-        <div class="s-seg" style="left:979.5px"><i class="s-seg-fill"></i></div>
-        <div class="s-seg" style="left:1306px"><i class="s-seg-fill"></i></div>
+        <div class="s-seg" style="left:189.25px"><i class="s-seg-fill"></i></div>
+        <div class="s-seg" style="left:378.5px"><i class="s-seg-fill"></i></div>
+        <div class="s-seg" style="left:567.75px"><i class="s-seg-fill"></i></div>
+        <div class="s-seg" style="left:757px"><i class="s-seg-fill"></i></div>
         <span class="s-seg-lab" style="left:0">01 VIDEO</span>
-        <span class="s-seg-lab" style="left:326.5px">02 MOTION</span>
-        <span class="s-seg-lab" style="left:653px">03 SLIDES</span>
-        <span class="s-seg-lab" style="left:979.5px">04 WEB</span>
-        <span class="s-seg-lab" style="left:1306px">05 CODE</span>
+        <span class="s-seg-lab" style="left:189.25px">02 MOTION</span>
+        <span class="s-seg-lab" style="left:378.5px">03 SLIDES</span>
+        <span class="s-seg-lab" style="left:567.75px">04 WEB</span>
+        <span class="s-seg-lab" style="left:757px">05 CODE</span>
         <i id="s-head"></i>
       </div>
     </div>
@@ -351,7 +351,7 @@
         }
       });
       // the playhead runs the whole scene
-      tl.fromTo("#s-head", { x: 0 }, { x: 1620 * 0.95, duration: 4.75, ease: "none" }, 0);
+      tl.fromTo("#s-head", { x: 0 }, { x: 936 * 0.95, duration: 4.75, ease: "none" }, 0);
 
       // demo 1 · edit (0–1)
       tl.fromTo(blocks, { x: 120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "expo.out", stagger: 0.012 }, 0.05);

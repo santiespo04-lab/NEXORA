@@ -1,4 +1,13 @@
-# REVIEW — NEXORA showreel 16:9
+# REVIEW — NEXORA showreel 9:16
+
+## Versión vertical (pedido posterior)
+- El film se recompuso para 1080x1920; no se escaló el 16:9. Misma música, mismos cortes y sincronía.
+- Cambios de layout: titulares partidos en líneas para el ancho de 936 px; reproductor del reel a
+  960 px de ancho con el pie debajo; key visuals en dos columnas que viajan en sentidos opuestos;
+  en la pieza web el celular pasa adelante; servicios apilados (título, panel de demo, etiquetas,
+  timeline); contacto centrado con tarjetas a lo ancho.
+- Franja segura de Instagram Reels respetada en todo texto de lectura (y 269–1248). Las alertas de
+  TikTok/Shorts por los bordes laterales quedan: sus franjas son más angostas que el logo.
 
 ## Decisiones creativas
 - Base: el video vertical original (34 s). Se conservaron su estructura y sus piezas: marco HUD + REC,

@@ -23,16 +23,18 @@
       color: #8b8a86;
       white-space: pre;
     }
-    #c-stage { position: absolute; inset: 0; transform-origin: 960px 540px; }
-    #c-avail { position: absolute; left: 150px; top: 296px; display: flex; align-items: center; gap: 16px; color: #c9c8c3; }
+    #c-stage { position: absolute; inset: 0; transform-origin: 540px 860px; }
+    #c-avail { position: absolute; left: 0; top: 300px; width: 1080px; display: flex; justify-content: center; align-items: center; gap: 16px; color: #c9c8c3; font-size: 24px; }
     #c-avail i { width: 12px; height: 12px; border-radius: 50%; background: #ff2b2b; box-shadow: 0 0 14px rgba(255, 43, 43, 0.9); }
     #c-title {
       position: absolute;
-      left: 150px;
-      top: 348px;
+      left: 0;
+      top: 352px;
+      width: 1080px;
+      text-align: center;
       font-weight: 900;
       font-stretch: 125%;
-      font-size: 108px;
+      font-size: 110px;
       line-height: 0.96;
       letter-spacing: -0.01em;
       text-transform: uppercase;
@@ -40,12 +42,12 @@
     #root .c-mask { display: block; overflow: hidden; padding: 0 0.04em 0.04em 0; margin-bottom: -0.04em; }
     #root .c-row { display: block; white-space: nowrap; }
     #root .c-red { color: #ff2b2b; }
-    #c-sign { position: absolute; left: 150px; top: 708px; }
+    #c-sign { position: absolute; left: 0; top: 1150px; width: 1080px; text-align: center; text-indent: 0.3em; }
 
-    #c-cards { position: absolute; left: 1000px; top: 288px; width: 790px; }
+    #c-cards { position: absolute; left: 72px; top: 610px; width: 936px; }
     #root .c-card {
       position: relative;
-      height: 148px;
+      height: 150px;
       margin-bottom: 22px;
       border-radius: 10px;
       background: linear-gradient(100deg, #111111, #0b0b0b);
@@ -73,7 +75,7 @@
     #root .c-icon svg { width: 50px; height: 50px; display: block; }
     #root .c-text { flex: 1 1 auto; min-width: 0; }
     #root .c-label { display: block; font-family: "JetBrains Mono", monospace; font-size: 22px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: #ff2b2b; margin-bottom: 10px; }
-    #root .c-value { display: block; font-size: 44px; font-weight: 700; letter-spacing: -0.005em; white-space: nowrap; }
+    #root .c-value { display: block; font-size: 48px; font-weight: 700; letter-spacing: -0.005em; white-space: nowrap; }
     #root .c-arrow { flex: 0 0 auto; width: 30px; height: 30px; opacity: 0.55; }
     #root .c-sweep {
       position: absolute;
@@ -88,8 +90,8 @@
   <div
     id="root"
     data-composition-id="contact"
-    data-width="1920"
-    data-height="1080"
+    data-width="1080"
+    data-height="1920"
     data-composition-variables='[
       {"id":"instagram","type":"string","label":"Instagram","default":"@santiiagoesposito"},
       {"id":"whatsapp","type":"string","label":"WhatsApp","default":"+54 9 3764 262942"},
@@ -99,8 +101,7 @@
     <div id="c-stage">
       <div id="c-avail" class="mono"><i></i>Available for projects</div>
       <div id="c-title">
-        <span class="c-mask"><span class="c-row">Let’s</span></span>
-        <span class="c-mask"><span class="c-row">work</span></span>
+        <span class="c-mask"><span class="c-row">Let’s work</span></span>
         <span class="c-mask"><span class="c-row c-red">together</span></span>
       </div>
       <div id="c-sign" class="mono">Santiago Esposito · NEXORA · Argentina</div>
@@ -156,7 +157,7 @@
       // the beat returns: the frame lands and settles
       tl.fromTo("#c-stage", { scale: 1.05, filter: "blur(8px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 0);
       tl.fromTo("#c-title .c-row", { yPercent: 108 }, { yPercent: 0, duration: 0.62, ease: "expo.out", stagger: 0.11 }, 0.0);
-      tl.fromTo("#c-avail", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, 0.12);
+      tl.fromTo("#c-avail", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.12);
       tl.fromTo("#c-sign", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 0.5);
 
       // one card per beat, each with its own build

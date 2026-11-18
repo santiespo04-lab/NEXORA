@@ -27,12 +27,12 @@
     #i-hud {
       position: absolute;
       inset: 0;
-      transform-origin: 960px 540px;
+      transform-origin: 540px 765px;
     }
     #root .i-line {
       position: absolute;
       left: 0;
-      width: 1920px;
+      width: 1080px;
       height: 1px;
       background: rgba(244, 243, 239, 0.09);
     }
@@ -42,33 +42,33 @@
       height: 56px;
       border: 0 solid rgba(244, 243, 239, 0.55);
     }
-    #i-c-tl { left: 210px; top: 150px; border-top-width: 2px; border-left-width: 2px; }
-    #i-c-tr { left: 1654px; top: 150px; border-top-width: 2px; border-right-width: 2px; }
-    #i-c-bl { left: 210px; top: 874px; border-bottom-width: 2px; border-left-width: 2px; }
-    #i-c-br { left: 1654px; top: 874px; border-bottom-width: 2px; border-right-width: 2px; }
-    #i-top { position: absolute; left: 210px; top: 100px; }
-    #i-rec { position: absolute; left: 210px; top: 958px; display: flex; align-items: center; gap: 14px; }
+    #i-c-tl { left: 72px; top: 330px; border-top-width: 2px; border-left-width: 2px; }
+    #i-c-tr { left: 960px; top: 330px; border-top-width: 2px; border-right-width: 2px; }
+    #i-c-bl { left: 72px; top: 1152px; border-bottom-width: 2px; border-left-width: 2px; }
+    #i-c-br { left: 960px; top: 1152px; border-bottom-width: 2px; border-right-width: 2px; }
+    #i-top { position: absolute; left: 72px; top: 288px; }
+    #i-rec { position: absolute; left: 72px; top: 1214px; display: flex; align-items: center; gap: 14px; }
     #i-rec-dot { width: 11px; height: 11px; border-radius: 50%; background: #ff2b2b; box-shadow: 0 0 12px rgba(255, 43, 43, 0.8); }
-    #i-spec { position: absolute; right: 210px; top: 958px; }
+    #i-spec { position: absolute; right: 72px; top: 1214px; }
 
     /* the mark */
     #i-cam {
       position: absolute;
       left: 0;
       top: 0;
-      width: 1920px;
-      height: 1080px;
+      width: 1080px;
+      height: 1530px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      transform-origin: 960px 470px;
+      transform-origin: 540px 760px;
     }
     #i-logo {
       display: flex;
       font-weight: 900;
       font-stretch: 125%;
-      font-size: 262px;
+      font-size: 160px;
       line-height: 0.86;
       letter-spacing: -0.005em;
       filter: blur(0px) drop-shadow(0 0 0px rgba(255, 43, 43, 0));
@@ -89,36 +89,36 @@
       background-clip: text;
     }
     #i-under {
-      width: 560px;
-      height: 6px;
-      margin-top: 46px;
+      width: 380px;
+      height: 5px;
+      margin-top: 34px;
       border-radius: 3px;
       background: #ff2b2b;
       box-shadow: 0 0 26px rgba(255, 43, 43, 0.75);
     }
     #i-tag {
-      margin-top: 44px;
+      margin-top: 36px;
       font-family: "JetBrains Mono", monospace;
-      font-size: 30px;
+      font-size: 28px;
       font-weight: 500;
-      letter-spacing: 0.6em;
-      margin-right: -0.6em;
+      letter-spacing: 0.5em;
+      margin-right: -0.5em;
       color: #c9c8c3;
       white-space: pre;
       height: 40px;
     }
   </style>
-  <div id="root" data-composition-id="intro" data-width="1920" data-height="1080">
+  <div id="root" data-composition-id="intro" data-width="1080" data-height="1920">
     <div id="i-hud">
-      <div id="i-line-t" class="i-line" style="top: 150px"></div>
-      <div id="i-line-b" class="i-line" style="top: 930px"></div>
+      <div id="i-line-t" class="i-line" style="top: 330px"></div>
+      <div id="i-line-b" class="i-line" style="top: 1200px"></div>
       <div id="i-c-tl" class="i-corner"></div>
       <div id="i-c-tr" class="i-corner"></div>
       <div id="i-c-bl" class="i-corner"></div>
       <div id="i-c-br" class="i-corner"></div>
       <div id="i-top" class="mono" data-layout-ignore></div>
       <div id="i-rec" class="mono" data-layout-ignore><i id="i-rec-dot"></i><span id="i-tc">REC 00:00:00:00</span></div>
-      <div id="i-spec" class="mono" data-layout-ignore>1920 × 1080 · 30 FPS</div>
+      <div id="i-spec" class="mono" data-layout-ignore>1080 × 1920 · 30 FPS</div>
     </div>
     <div id="i-cam">
       <div id="i-logo" aria-label="NEXORA">
@@ -142,10 +142,10 @@
 
       // ---- HUD draws in (already on screen at frame 0) ----
       tl.fromTo(["#i-line-t", "#i-line-b"], { scaleX: 0.15, opacity: 0.4 }, { scaleX: 1, opacity: 1, duration: 0.8, ease: "expo.out" }, 0);
-      tl.fromTo("#i-c-tl", { x: -46, y: -34, opacity: 0.35 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 0);
-      tl.fromTo("#i-c-tr", { x: 46, y: -34, opacity: 0.35 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 0.03);
-      tl.fromTo("#i-c-bl", { x: -46, y: 34, opacity: 0.35 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 0.06);
-      tl.fromTo("#i-c-br", { x: 46, y: 34, opacity: 0.35 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 0.09);
+      tl.fromTo("#i-c-tl", { x: -30, y: -40, opacity: 0.35 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 0);
+      tl.fromTo("#i-c-tr", { x: 30, y: -40, opacity: 0.35 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 0.03);
+      tl.fromTo("#i-c-bl", { x: -30, y: 40, opacity: 0.35 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 0.06);
+      tl.fromTo("#i-c-br", { x: 30, y: 40, opacity: 0.35 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 0.09);
       tl.fromTo(["#i-rec", "#i-spec"], { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0.25);
 
       // top label types in, one character per frame
@@ -174,8 +174,8 @@
       // ---- 1.0 s: the hit — the mark ignites ----
       tl.set(letters, { color: "transparent", webkitTextStrokeColor: "rgba(244,243,239,0)" }, 1.0);
       tl.set(letters, { backgroundImage: "linear-gradient(100deg, #ff2b2b 0%, #ff2b2b 42%, #ffe2df 50%, #ff2b2b 58%, #ff2b2b 100%)" }, 1.0);
-      tl.set("#i-logo", { filter: "blur(0px) drop-shadow(0 0 70px rgba(255,43,43,0.95))" }, 1.0);
-      tl.to("#i-logo", { filter: "blur(0px) drop-shadow(0 0 30px rgba(255,43,43,0.5))", duration: 0.9, ease: "expo.out" }, 1.0);
+      tl.set("#i-logo", { filter: "blur(0px) drop-shadow(0 0 54px rgba(255,43,43,0.95))" }, 1.0);
+      tl.to("#i-logo", { filter: "blur(0px) drop-shadow(0 0 24px rgba(255,43,43,0.5))", duration: 0.9, ease: "expo.out" }, 1.0);
       // one specular sweep through the glyphs
       tl.fromTo(letters, { backgroundPosition: "100% 0" }, { backgroundPosition: "0% 0", duration: 0.55, ease: "power2.inOut", stagger: 0.045 }, 1.02);
       tl.fromTo("#i-under", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 1.0);
@@ -199,9 +199,9 @@
       tl.set(tagEl, { textContent: tag }, T0 + (N + 1) / FPS);
 
       // ---- 2.5–3.0 s: the camera flies through the mark (whoosh into the drop) ----
-      tl.to("#i-left", { x: -1150, scale: 3.4, duration: 0.48, ease: "power3.in" }, 2.5);
-      tl.to("#i-right", { x: 1150, scale: 3.4, duration: 0.48, ease: "power3.in" }, 2.5);
-      tl.to("#i-logo", { filter: "blur(16px) drop-shadow(0 0 30px rgba(255,43,43,0.5))", duration: 0.48, ease: "power3.in" }, 2.5);
+      tl.to("#i-left", { x: -760, scale: 3.6, duration: 0.48, ease: "power3.in" }, 2.5);
+      tl.to("#i-right", { x: 760, scale: 3.6, duration: 0.48, ease: "power3.in" }, 2.5);
+      tl.to("#i-logo", { filter: "blur(16px) drop-shadow(0 0 24px rgba(255,43,43,0.5))", duration: 0.48, ease: "power3.in" }, 2.5);
       tl.to("#i-under", { scaleX: 5, opacity: 0, duration: 0.42, ease: "power3.in" }, 2.52);
       tl.to("#i-tag", { y: 70, opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power3.in" }, 2.5);
       tl.to("#i-hud", { scale: 1.4, opacity: 0, duration: 0.45, ease: "power3.in" }, 2.53);

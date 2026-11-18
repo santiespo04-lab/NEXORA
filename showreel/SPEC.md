@@ -1,8 +1,11 @@
-# NEXORA — Showreel 16:9 · SPEC
+# NEXORA — Showreel 9:16 · SPEC
 
 GOAL:    En 34 s el espectador entiende que NEXORA es un estudio de diseño y motion con trabajo real
          (Picadas Argentinas, el sitio NEXORA, la presentación 9:16) y se lleva los tres contactos.
-OUTPUT:  HyperFrames, 1920 x 1080, 30 fps, MP4 H.264 + AAC.
+OUTPUT:  HyperFrames, 1080 x 1920 (9:16), 30 fps, MP4 H.264 + AAC.
+         (La primera entrega fue 16:9; está en renders/nexora-showreel-16x9.mp4 y en el commit 04a3ec5.)
+SAFE:    todo texto de lectura dentro de la franja segura de Instagram Reels: y 269–1248, x 65–1015.
+         Debajo de 1248 sólo textura (neblina, grilla, polvo).
 BASE:    el video vertical original (1080x1920, 34 s). Se conserva su estructura y su lenguaje:
          marco HUD + REC, logo NEXORA con decodificado y encendido rojo, "CREATIVITY IN MOTION",
          "01 — STUDIO", "SELECTED WORK", "SERVICES · FIVE DISCIPLINES · ONE TIMELINE",
@@ -17,7 +20,7 @@ LOOK:    fondo #050505 con neblina roja radial (rgba 255,43,43 de 0.10 a 0.55 se
          grano 6 %, viñeta 38 % en bordes.
          Tinta #f4f3ef, secundaria #c9c8c3, apagado #8b8a86, acento #ff2b2b (rojo profundo #c8101e).
          Rojo sólo en: logo, una palabra por titular, índices, barras de tarjetas, cabezal de timeline.
-         Display: Archivo 900, ancho 125 %, MAYÚSCULAS, interlineado 0.9, tracking -1 %, 120–230 px.
+         Display: Archivo 900, ancho 125 %, MAYÚSCULAS, interlineado 0.9, tracking -1 %, 82–160 px (limitado por el ancho de 936 px).
          Cuerpo: Archivo 300–800 ancho 100 %, 34–46 px. Etiquetas: JetBrains Mono 20–30 px, tracking 0.32–0.6 em.
          Profundidad: sombras 0 40 120 rgba(0,0,0,.6); glow del logo 0 0 34 px rgba(255,43,43,.5),
          destello 0 0 90 px en el impacto.
