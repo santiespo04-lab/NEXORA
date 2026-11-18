@@ -20,7 +20,11 @@
   - `line_unread` en el rodillo de roles (efecto tragamonedas) y en las etiquetas/código de servicios
     (cada disciplina dura 1 s, el título grande es la lectura).
   - `nested_media_start_basis_ambiguous`: los `data-start` de video son locales a su escena, como corresponde.
-- Audio: medido (-14 LUFS integrado, pico -4.9 dBFS), no escuchado.
+- Render: 1920x1080, 30 fps, 34.0 s, H.264 + AAC 48 kHz. Master de HyperFrames (calidad delivery, 133 MB)
+  recomprimido a CRF 20 / preset slow (40 MB): SSIM 0.974 contra el master, sin diferencia visible a 100 %.
+- Audio en el MP4: -14 LUFS integrado, pico real -4.9 dBFS, sin clipping. Medido, no escuchado.
+  Sincronía verificada en el archivo: drop en 3.000 s, retorno del beat en 25.000 s, salida en 31.0 s.
+- Revisión del render completo a 2 fps: las 6 escenas, textos y los tres contactos correctos.
 
 ## Más débil / con más tiempo
 - La pieza 9:16 dura 1.6 s: alcanza para leer el formato, no para recorrerla.
